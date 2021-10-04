@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.johnchaves.consultor">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+
+    <application
+        android:debuggable="false"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="Consultor CC"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Consultor"
+        tools:ignore="HardcodedDebugMode"
+        android:usesCleartextTraffic="true">
+        <activity android:name="com.johnchaves.consultor.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".CantidadPop"
+            android:theme="@style/Theme.Consultor.CustomTheme"
+            />
+        <activity
+            android:name=".CodPop"
+            android:theme="@style/Theme.Consultor.CustomTheme"
+            />
+        <activity
+            android:name=".BarPop"
+            android:theme="@style/Theme.Consultor.CustomTheme"
+            />
+        <activity
+            android:name=".FecPop"
+            android:theme="@style/Theme.Consultor.CustomTheme"
+            />
+        <activity
+            android:name=".DocPop"
+            android:theme="@style/Theme.Consultor.CustomTheme"
+            />
+        <activity
+            android:name=".FotoPop"
+            android:theme="@style/Theme.Consultor.CustomTheme"
+            />
+    </application>
+</manifest>

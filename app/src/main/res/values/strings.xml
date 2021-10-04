@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Consultor</string>
+    <string-array name="Cod_Cara">
+        <item>Norte</item>
+        <item>Sur</item>
+        <item>Este</item>
+        <item>Oeste</item>
+        <item>Sin Cara</item>
+    </string-array>
+    <string-array name="Modo">
+        <item>C</item>
+        <item>R</item>
+        <item>D</item>
+        <item>M</item>
+    </string-array>
+    <string-array name="Bod">
+        <item>Bod 1 - Supermercado</item>
+        <item>Bod 2 - Sala de Proceso</item>
+        <item>Bod 4 - Intermedia</item>
+        <item>Bod 5 - Verduras</item>
+        <item>Bod 6 - Cecinas</item>
+        <item>Bod 10 - De Transito</item>
+        <item>Bod 20 - Particular</item>
+    </string-array>
+    <string-array name="TipoDoc">
+        <item>ZETA</item>
+        <item>RE</item>
+        <item>TU</item>
+    </string-array>
+</resources>

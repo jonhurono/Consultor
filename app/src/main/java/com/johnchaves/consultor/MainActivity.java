@@ -1,16 +1,13 @@
 package com.johnchaves.consultor;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.StrictMode;
-import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
@@ -27,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,12 +43,15 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     String [] modos = {"Cuenta/Inventario","Recepción","Despacho","Merma"};
-    String [] bodegas = {"Bod 1 - Supermercado","Bod 2 - Sala de Proceso","Bod 4 - Intermedia","Bod 5 - Verduras", "Bod 6 - Cecinas", "Bod 20 - Particular"};
+    String [] bodegas = {"Bod 1 - Supermercado","Bod 2 - Sala de Proceso",
+            "Bod 4 - Intermedia","Bod 5 - Verduras", "Bod 6 - Cecinas", "Bod 10 - De Transito", "Bod 20 - Particular"};
+    String [] tipodocs = {"--TIPO DOC--","ZETA","REEXPEDICIÓN","T.U","DESPACHO"};
     EditText CodProd;
-    Button Buscar;
+    Button Buscar, detdoc, asoccod, asocbar, asocfech;
     Spinner Bod;
     FloatingActionButton Inventariar, Foto;
     private static Spinner Modo;
+    private static Spinner TipoDoc;
     private static TextView Cod_Art;
     private static TextView Cod_Barra;
     private static TextView Sto_Art1;
@@ -63,8 +64,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static TextView Des_Art;
     private static TextView modox;
     private static TextView bodx;
-    TextView Pre_Ven, Ubicacion, Sto_Cri, Sto_Des, Sto_Art20, Pre_Oferta_Pesos, Cod_Ubicacion, Cap_Caja, Fec_Ult_Com, Fec_Ult_Ven;
+    private static TextView tipodoc;
+    private static TextView nrodoc;
+    private static TextView nroitem;
+    TextView Pre_Ven, Ubicacion, Sto_Cri, Sto_Des, Sto_Art20, Pre_Oferta_Pesos, Cod_Ubicacion, Cap_Caja;
     LinearLayout Botones;
+    TableRow rowRepecion, butonera;
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
@@ -73,10 +78,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Modo                = (Spinner) findViewById(R.id.Modo);
-        Bod                 = (Spinner) findViewById(R.id.bod);
+        Modo                = (Spinner)  findViewById(R.id.Modo);
+        Bod                 = (Spinner)  findViewById(R.id.bod);
+        TipoDoc             = (Spinner)  findViewById(R.id.TipoDoc);
+        Buscar              = (Button)   findViewById(R.id.butbuscar);
+        asoccod             = (Button)   findViewById(R.id.butcods);
+        asocbar             = (Button)   findViewById(R.id.butbarras);
+        asocfech            = (Button)   findViewById(R.id.butfechas);
+        detdoc              = (Button)   findViewById(R.id.detdoc);
         CodProd             = (EditText) findViewById(R.id.inputCodProd);
-        Buscar              = (Button) findViewById(R.id.Buscar);
         Des_Art             = (TextView) findViewById(R.id.Des_Art);
         Cod_Art             = (TextView) findViewById(R.id.Cod_Art);
         Cod_Barra           = (TextView) findViewById(R.id.Cod_Barra);
@@ -88,9 +98,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Sto_Art20           = (TextView) findViewById(R.id.Sto_Art20);
         Pre_Oferta_Pesos    = (TextView) findViewById(R.id.Pre_Oferta_Pesos);
         Cod_Ubicacion       = (TextView) findViewById(R.id.Cod_Ubicacion);
-        Botones             = (LinearLayout) findViewById(R.id.Botones);
-        Inventariar         = (FloatingActionButton) findViewById(R.id.Inventariar);
-        Foto                = (FloatingActionButton) findViewById(R.id.Foto);
         MAC                 = (TextView) findViewById(R.id.MAC);
         FETCHA              = (TextView) findViewById(R.id.FETCHA);
         IP                  = (TextView) findViewById(R.id.IP);
@@ -98,10 +105,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         ubiUG               = (TextView) findViewById(R.id.ubiUG);
         ubiUC               = (TextView) findViewById(R.id.ubiUC);
         Cap_Caja            = (TextView) findViewById(R.id.CapCaja);
-        Fec_Ult_Com         = (TextView) findViewById(R.id.Fec_Ult_Com);
-        Fec_Ult_Ven         = (TextView) findViewById(R.id.Fec_Ult_Ven);
         modox               = (TextView) findViewById(R.id.modox);
         bodx                = (TextView) findViewById(R.id.bodx);
+        rowRepecion         = (TableRow) findViewById(R.id.rowRecepcion);
+        butonera            = (TableRow) findViewById(R.id.butonera);
+        tipodoc             = (TextView) findViewById(R.id.tipodoc);
+        nrodoc              = (TextView) findViewById(R.id.nrodoc);
+        nroitem             = (TextView) findViewById(R.id.nroitem);
+        Botones             = (LinearLayout) findViewById(R.id.Botones);
+        Inventariar         = (FloatingActionButton) findViewById(R.id.Inventariar);
+        Foto                = (FloatingActionButton) findViewById(R.id.Foto);
 
         CodProd.requestFocus();
 
@@ -121,12 +134,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         String ipAddress = Formatter.formatIpAddress(wifiManager.getConnectionInfo().getIpAddress());
         IP.setText(ipAddress);
 
+        /* Solo funciona en API < 29
         WifiManager manager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         WifiInfo info = manager.getConnectionInfo();
-        String macAddress = manager.getConnectionInfo().getMacAddress();
+        String macAddress = info.getMacAddress();
+        MAC.setText(macAddress);
+        */
 
-        //MAC.setText(macAddress);
         //Solo utilizar en Android OS 10 (API 29) o menor
+
 /*
         try {
             List<NetworkInterface> networkInterfaceList = Collections.list(NetworkInterface.getNetworkInterfaces());
@@ -145,6 +161,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     }
                     break;
                 }
+                else {
+
+                }
             }
             MAC.setText(stringMac.substring(0, stringMac.length() - 1));
 
@@ -156,13 +175,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //Si la API es versión 30 (Android OS 11) o mayor, entonces enviar la MAC en duro
 
-        //ARNALDO - Samsung Tab A10
+        //Samsung Tab A10 01 - FCresp
         //MAC.setText("80:86:D9:28:E5:54");
         //hostname.setText("CC_Tablet01");
-        //FREDDY - Samsung Tab A10
+        //Samsung Tab A10 02 - JSegovia
         //MAC.setText("F8:F1:E6:12:47:D7");
         //hostname.setText("CC_Tablet02");
-        //VALETINA - Samsung Tab A10
+        //VALENTINA - Samsung Tab A10
         //MAC.setText("F8:F1:E6:1F:8D:93");
         //hostname.setText("CC_Tablet03");
         //ALFREDO - Alcatel 1T7
@@ -180,11 +199,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //Alcatel 08 - 3T8
         //MAC.setText("64:09:AC:32:0A:0F");
         //hostname.setText("CC_Tablet08");
+        //Samsung Tab A8 09 - Arnaldo
+        //hostname.setText("CC_Tablet09");
+        //MAC.setText("54:21:9D:CD:CE:64");
+        //Samsung Tab A8 10 - Sebastian
+        //hostname.setText("CC_Tablet10");
+        //MAC.setText("54:21:9D:CA:AA:7E");
         //Lenovo Avansis
         //MAC.setText("98:0C:A5:9A:FE:33");
         //hostname.setText("Tablet_Avansis");
+        //Samsung Jchaves-Avansis
+        //MAC.setText("80:86:D9:28:D9:92");
         //Samsung Vdelic-Avansis
-        MAC.setText("80:86:D9:28:DA:3E");
+        //MAC.setText("80:86:D9:28:DA:3E");
 
         Modo.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
         ArrayAdapter bb = new ArrayAdapter(this, android.R.layout.simple_spinner_item,modos);
@@ -195,6 +222,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         ArrayAdapter cc = new ArrayAdapter(this, android.R.layout.simple_spinner_item,bodegas);
         cc.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Bod.setAdapter(cc);
+        //para bloquear cambio de bodega
+        Bod.setEnabled(true);
+
+        TipoDoc.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
+        ArrayAdapter dd = new ArrayAdapter(this, android.R.layout.simple_spinner_item,tipodocs);
+        dd.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        TipoDoc.setAdapter(dd);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, 101);
@@ -222,18 +256,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
-        Buscar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (CodProd.length() <= 5){
-                    buscarProducto();
-                }
-                else{
-                    buscarxBarra();
-                }
-            }
-        });
-
         CodProd.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -251,6 +273,70 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
+        nrodoc.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if(s.toString().trim().length()==0){
+                    detdoc.setEnabled(false);
+                } else {
+                    detdoc.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+        Buscar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (CodProd.length() <= 5){
+                    buscarProducto();
+                }
+                else{
+                    buscarxBarra();
+                }
+            }
+        });
+
+        asoccod.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,CodPop.class));
+
+            }
+        });
+
+        asocbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,BarPop.class));
+
+            }
+        });
+
+        asocfech.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,FecPop.class));
+            }
+        });
+
+        detdoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,DocPop.class));
+            }
+        });
+
         Inventariar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -264,6 +350,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 startActivity(new Intent(MainActivity.this,FotoPop.class));
             }
         });
+
     }
 
     private String getCurrentDateandTime(){
@@ -281,6 +368,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public static TextView getUbiUC(){ return ubiUC; }
     public static TextView getDes_Art(){ return Des_Art; }
     public static TextView getBodx(){ return bodx; }
+    public static TextView getTipodoc() { return tipodoc; }
+    public static TextView getNrodoc() { return nrodoc; }
+    public static TextView getNroitem() { return nroitem; }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -288,15 +378,35 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         if(mode.equals("Cuenta/Inventario")){
             modox.setText("C");
+            rowRepecion.setVisibility(View.GONE);
+            TipoDoc.setSelection(0);
+            tipodoc.setText(null);
+            nrodoc.setText(null);
+            nroitem.setText(null);
+        }
+        else if(mode.equals("--TIPO DOC--")){
+            tipodoc.setText(null);
         }
         else if(mode.equals("Recepción")){
             modox.setText("R");
+            rowRepecion.setVisibility(View.VISIBLE);
+            TipoDoc.setSelection(0);
         }
         else if(mode.equals("Despacho")){
             modox.setText("D");
+            rowRepecion.setVisibility(View.GONE);
+            TipoDoc.setSelection(0);
+            tipodoc.setText(null);
+            nrodoc.setText(null);
+            nroitem.setText(null);
         }
         else if(mode.equals("Merma")){
             modox.setText("M");
+            rowRepecion.setVisibility(View.GONE);
+            TipoDoc.setSelection(0);
+            tipodoc.setText(null);
+            nrodoc.setText(null);
+            nroitem.setText(null);
         }
         else if (mode.equals("Bod 1 - Supermercado")){
             bodx.setText("1");
@@ -313,8 +423,23 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         else if (mode.equals("Bod 6 - Cecinas")){
             bodx.setText("6");
         }
+        else if (mode.equals("Bod 10 - De Transito")){
+            bodx.setText("10");
+        }
         else if (mode.equals("Bod 20 - Particular")){
             bodx.setText("20");
+        }
+        else if (mode.equals("ZETA")) {
+            tipodoc.setText("Z");
+        }
+        else if (mode.equals("REEXPEDICIÓN")) {
+            tipodoc.setText("R");
+        }
+        else if (mode.equals("T.U")) {
+            tipodoc.setText("T");
+        }
+        else if (mode.equals("DESPACHO")) {
+            tipodoc.setText("B");
         }
     }
 
@@ -354,8 +479,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 ubiUG.setText(rs.getString(12));
                 ubiUC.setText(rs.getString(13));
                 Cap_Caja.setText(rs.getString(14));
-                Fec_Ult_Com.setText(rs.getString(15));
-                Fec_Ult_Ven.setText(rs.getString(16));
             }
             else{
                 Toast.makeText(getApplicationContext(),"CÓDIGO INVÁLIDO O INEXISTENTE EN SUPERMERCADO",Toast.LENGTH_SHORT).show();
@@ -363,6 +486,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             CodProd.setText("");
             CodProd.requestFocus();
             Botones.setVisibility(View.VISIBLE);
+            asoccod.setEnabled(true);
+            asocbar.setEnabled(true);
+            asocfech.setEnabled(true);
 
         }catch (Exception e){
             //Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
@@ -393,8 +519,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 ubiUG.setText(rs.getString(12));
                 ubiUC.setText(rs.getString(13));
                 Cap_Caja.setText(rs.getString(14));
-                Fec_Ult_Com.setText(rs.getString(15));
-                Fec_Ult_Ven.setText(rs.getString(16));
             }
             else{
                 Toast.makeText(getApplicationContext(),"CÓDIGO INVÁLIDO O INEXISTENTE EN SUPERMERCADO",Toast.LENGTH_SHORT).show();
@@ -409,8 +533,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         CodProd.setText("");
         CodProd.requestFocus();
         Botones.setVisibility(View.VISIBLE);
-    }
 
+    }
 
     public static TextView getModox() { return modox; }
 

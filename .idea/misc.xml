@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/jjcha/AndroidStudioProjects/Consultor/app/src/main/res/layout/activity_main.xml" value="0.536" />
+        <entry key="..\:/Users/jjcha/AndroidStudioProjects/Consultor/app/src/main/res/layout/barlayout.xml" value="0.4" />
+        <entry key="..\:/Users/jjcha/AndroidStudioProjects/Consultor/app/src/main/res/layout/cantidadwindow.xml" value="0.4" />
+        <entry key="..\:/Users/jjcha/AndroidStudioProjects/Consultor/app/src/main/res/layout/codlayout.xml" value="0.3088592233009709" />
+        <entry key="..\:/Users/jjcha/AndroidStudioProjects/Consultor/app/src/main/res/layout/copiacantidad.xml" value="0.26796875" />
+        <entry key="..\:/Users/jjcha/AndroidStudioProjects/Consultor/app/src/main/res/layout/doclayout.xml" value="0.3391990291262136" />
+        <entry key="..\:/Users/jjcha/AndroidStudioProjects/Consultor/app/src/main/res/layout/docpop.xml" value="0.3391990291262136" />
+        <entry key="..\:/Users/jjcha/AndroidStudioProjects/Consultor/app/src/main/res/layout/feclayout.xml" value="0.72" />
+        <entry key="..\:/Users/jjcha/AndroidStudioProjects/Consultor/app/src/main/res/layout/fotowindow.xml" value="0.25728155339805825" />
+        <entry key="..\:/Users/jjcha/AndroidStudioProjects/Consultor/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.40703125" />
+        <entry key="..\:/Users/jjcha/AndroidStudioProjects/Consultor/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.40703125" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
