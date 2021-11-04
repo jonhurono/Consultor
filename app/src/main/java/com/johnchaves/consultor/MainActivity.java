@@ -34,6 +34,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
@@ -42,13 +43,13 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    String [] modos = {"Cuenta/Inventario","Recepción","Despacho","Merma"};
-    String [] bodegas = {"Bod 1 - Supermercado","Bod 2 - Sala de Proceso",
+    String []   modos = {"Cuenta/Inventario","Recepción","Despacho","Merma"};
+    String []   bodegas = {"Bod 1 - Supermercado","Bod 2 - Sala de Proceso",
             "Bod 4 - Intermedia","Bod 5 - Verduras", "Bod 6 - Cecinas", "Bod 10 - De Transito", "Bod 20 - Particular"};
-    String [] tipodocs = {"--TIPO DOC--","ZETA","REEXPEDICIÓN","T.U","DESPACHO"};
-    EditText CodProd;
-    Button Buscar, detdoc, asoccod, asocbar, asocfech;
-    Spinner Bod;
+    String []   tipodocs = {"--TIPO DOC--","ZETA","REEXPEDICIÓN","T.U","DESPACHO"};
+    EditText    CodProd;
+    Button      Buscar, detdoc, asoccod, asocbar, asocfech;
+    Spinner     Bod;
     FloatingActionButton Inventariar, Foto;
     private static Spinner Modo;
     private static Spinner TipoDoc;
@@ -67,9 +68,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static TextView tipodoc;
     private static TextView nrodoc;
     private static TextView nroitem;
-    TextView Pre_Ven, Ubicacion, Sto_Cri, Sto_Des, Sto_Art20, Pre_Oferta_Pesos, Cod_Ubicacion, Cap_Caja;
-    LinearLayout Botones;
-    TableRow rowRepecion, butonera;
+    TextView        Pre_Ven, Ubicacion, Sto_Cri, Sto_Des, Sto_Art20, Pre_Oferta_Pesos, Cod_Ubicacion, Cap_Caja, Unidad;
+    LinearLayout    Botones;
+    TableRow        rowRepecion, butonera;
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
@@ -112,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         tipodoc             = (TextView) findViewById(R.id.tipodoc);
         nrodoc              = (TextView) findViewById(R.id.nrodoc);
         nroitem             = (TextView) findViewById(R.id.nroitem);
+        Unidad              = (TextView) findViewById(R.id.unidad);
         Botones             = (LinearLayout) findViewById(R.id.Botones);
         Inventariar         = (FloatingActionButton) findViewById(R.id.Inventariar);
         Foto                = (FloatingActionButton) findViewById(R.id.Foto);
@@ -479,6 +481,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 ubiUG.setText(rs.getString(12));
                 ubiUC.setText(rs.getString(13));
                 Cap_Caja.setText(rs.getString(14));
+                Unidad.setText(rs.getString(15));
+
             }
             else{
                 Toast.makeText(getApplicationContext(),"CÓDIGO INVÁLIDO O INEXISTENTE EN SUPERMERCADO",Toast.LENGTH_SHORT).show();
@@ -510,7 +514,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 Cod_Barra.setText(rs.getString(3));
                 Pre_Ven.setText("$"+rs.getString(4));
                 Pre_Oferta_Pesos.setText("$"+rs.getString(5));
-                Sto_Art1.setText(rs.getString(6));
+                Sto_Art1.setText((int) rs.getFloat(6));
                 Sto_Cri.setText(rs.getString(7));
                 Ubicacion.setText(rs.getString(8));
                 Sto_Art20.setText(rs.getString(9));
@@ -519,6 +523,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 ubiUG.setText(rs.getString(12));
                 ubiUC.setText(rs.getString(13));
                 Cap_Caja.setText(rs.getString(14));
+                Unidad.setText(rs.getInt(15));
+
             }
             else{
                 Toast.makeText(getApplicationContext(),"CÓDIGO INVÁLIDO O INEXISTENTE EN SUPERMERCADO",Toast.LENGTH_SHORT).show();

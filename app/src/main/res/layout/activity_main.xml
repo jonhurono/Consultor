@@ -488,16 +488,33 @@
                             android:textStyle="bold" />
                     </TableRow>
 
-                    <TextView
-                        android:id="@+id/Sto_Art1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="10dp"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/Sto_Art1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+
+                            android:layout_marginRight="5dp"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/unidad"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="10dp"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+                    </TableRow>
+
                 </TableRow>
 
                 <TableRow
@@ -693,6 +710,8 @@
                     app:backgroundTint="#EF9A9A"
                     app:srcCompat="@android:drawable/ic_menu_gallery" />
             </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
+
 </LinearLayout>
