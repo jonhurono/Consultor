@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <LinearLayout
+
+    <nl.dionsegijn.konfetti.KonfettiView
+        android:id="@+id/konfettiView"
+        android:layoutDirection="inherit"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <LinearLayout
+
+        android:id="@+id/primeraFila"
+        android:layout_alignParentTop="true"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
@@ -22,12 +33,22 @@
                 android:id="@+id/titleMain"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.5"
+                android:layout_weight="0.45"
                 android:gravity="start|center_vertical"
-                android:text="INGRESAR CÓDIGO 🐑"
+                android:text="INGRESAR CÓDIGO"
                 android:textAlignment="viewStart"
                 android:textAllCaps="true"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/ovejita"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1"
+                android:gravity="center_vertical"
+                android:text="🐑"
+                android:textAllCaps="true"
                 android:textSize="25sp"
                 android:textStyle="bold" />
 
@@ -35,7 +56,7 @@
                 android:id="@+id/inputCodProd"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.5"
+                android:layout_weight="0.45"
                 android:ems="10"
                 android:imeOptions="actionSend"
                 android:inputType="number"
@@ -47,8 +68,10 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/segundaFila"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/primeraFila"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginRight="10dp">
@@ -94,6 +117,8 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/terceraFila"
+        android:layout_below="@id/segundaFila"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -148,6 +173,8 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/cuartaFila"
+        android:layout_below="@id/terceraFila"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -212,6 +239,8 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/quintaFila"
+        android:layout_below="@id/cuartaFila"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -309,8 +338,10 @@
     </LinearLayout>
 
     <ScrollView
+        android:id="@+id/sextaFila"
+        android:layout_below="@id/quintaFila"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -714,4 +745,4 @@
         </LinearLayout>
     </ScrollView>
 
-</LinearLayout>
+</RelativeLayout>

@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.StrictMode;
@@ -16,7 +17,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.Formatter;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -40,6 +43,10 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import nl.dionsegijn.konfetti.KonfettiView;
+import nl.dionsegijn.konfetti.models.Shape;
+import nl.dionsegijn.konfetti.models.Size;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -68,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static TextView tipodoc;
     private static TextView nrodoc;
     private static TextView nroitem;
-    TextView        Pre_Ven, Ubicacion, Sto_Cri, Sto_Des, Sto_Art20, Pre_Oferta_Pesos, Cod_Ubicacion, Cap_Caja, Unidad;
+    TextView        Ovejita,Pre_Ven, Ubicacion, Sto_Cri, Sto_Des, Sto_Art20, Pre_Oferta_Pesos, Cod_Ubicacion, Cap_Caja, Unidad;
     LinearLayout    Botones;
     TableRow        rowRepecion, butonera;
 
@@ -88,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         asocfech            = (Button)   findViewById(R.id.butfechas);
         detdoc              = (Button)   findViewById(R.id.detdoc);
         CodProd             = (EditText) findViewById(R.id.inputCodProd);
+        Ovejita             = (TextView) findViewById(R.id.ovejita);
         Des_Art             = (TextView) findViewById(R.id.Des_Art);
         Cod_Art             = (TextView) findViewById(R.id.Cod_Art);
         Cod_Barra           = (TextView) findViewById(R.id.Cod_Barra);
@@ -117,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Botones             = (LinearLayout) findViewById(R.id.Botones);
         Inventariar         = (FloatingActionButton) findViewById(R.id.Inventariar);
         Foto                = (FloatingActionButton) findViewById(R.id.Foto);
+        final KonfettiView konfettiView = findViewById(R.id.konfettiView);
 
         CodProd.requestFocus();
 
@@ -350,6 +359,29 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this,FotoPop.class));
+            }
+        });
+
+        Ovejita.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int counter = 0;
+                counter++;
+                if(counter>=1)
+                    konfettiView.build()
+                            .addColors(Color.LTGRAY, Color.GREEN, Color.RED)
+                            .setDirection(0.0, 359.0)
+                            .setSpeed(1f, 5f)
+                            .setFadeOutEnabled(true)
+                            .setTimeToLive(1000L)
+                            .addShapes(Shape.Square.INSTANCE, Shape.Circle.INSTANCE)
+                            .addSizes(new Size(12,5))
+                            .setPosition(-50f, konfettiView.getWidth() + 50f, -50f, -50f)
+                            .streamFor(300, 1000L);
+                    Toast.makeText(MainActivity.this, "🎅 ¡Avansis te desea Feliz Navidad! 🎁", Toast.LENGTH_SHORT).show();
+
+                Log.i("LOG_RESPONSE", "Screen touched!");
+                return false;
             }
         });
 

@@ -44,7 +44,7 @@ public class CantidadPop extends Activity implements OnItemSelectedListener{
     TextView Carax;
     Spinner Cod_Cara;
     String [] caras = {"Sin cara","Norte","Sur","Este","Oeste"};
-    Button insertinto;
+    Button insertinto,btnback;
     TextView Cod_Art = MainActivity.getCod_Art();
     TextView Cod_Barra = MainActivity.getCod_Barra();
     TextView Sto_Art1 = MainActivity.getSto_Art1();
@@ -83,6 +83,7 @@ public class CantidadPop extends Activity implements OnItemSelectedListener{
         FecVen2         =   (EditText) findViewById(R.id.FecVen2);
         FecVen3         =   (EditText) findViewById(R.id.FecVen3);
         insertinto      =   (Button)   findViewById(R.id.insertinto);
+        btnback         =   (Button)   findViewById(R.id.back);
         Cod_Cara        =   (Spinner)  findViewById(R.id.Cod_Cara);
         Cantidad.requestFocus();
         Cod_Cara.setOnItemSelectedListener(this);
@@ -96,6 +97,13 @@ public class CantidadPop extends Activity implements OnItemSelectedListener{
                nuevaCantidad();
                finish();
                //startActivity(new Intent(CantidadPop.this,MainActivity.class));
+            }
+        });
+
+        btnback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 
