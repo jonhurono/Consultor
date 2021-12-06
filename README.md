@@ -1,2 +1,3 @@
 # Consultor
-"Consultor CC" es una aplicación móvil que permite al usuario escanear el código de barra de un producto, obteniendo así información relevante, como stock, precios, ubicación, fechas, etc. La interfaz principal contiene botones permite al usuario agregar nueva cantidad contada, añadir información adicional, o ver la foto del producto.
+"Consultor CC" o simplemente "Consultor" es una aplicación móvil desarrollada en Android Studio en base al lenguaje Java, que permite al usuario consultar por un producto (ya sea código interno o código de barra), y así obtener información relevante, como stock, precios, ubicación, fechas, etc. 
+Inicialmente ese era el único "Modo" o función, pero posteriormente se agregaron 3 modos más, los cuales con sus sub-tareas, permiten al usuario agregar una nueva cantidad contada, añadir información adicional, cruzar la información con un documento de traslado-despacho o ver la foto del producto.
