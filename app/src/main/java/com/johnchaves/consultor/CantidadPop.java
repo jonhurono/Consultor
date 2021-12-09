@@ -107,6 +107,7 @@ public class CantidadPop extends Activity implements OnItemSelectedListener{
             }
         });
 
+        //esto era para bloquear el botón de ingresar cantidad si es que el campo de cantidad estaba vacío
         /*Cantidad.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
