@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Region;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.StrictMode;
@@ -50,12 +51,12 @@ import nl.dionsegijn.konfetti.models.Size;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    String []   modos = {"Cuenta/Inventario","Recepción","Despacho","Merma"};
+    String []   modos = {"Cuenta/Inventario","Recepción","Despacho","Merma","Fleje"};
     String []   bodegas = {"Bod 1 - Supermercado","Bod 2 - Sala de Proceso",
             "Bod 4 - Intermedia","Bod 5 - Verduras", "Bod 6 - Cecinas", "Bod 10 - De Transito", "Bod 20 - Particular"};
     String []   tipodocs = {"--TIPO DOC--","ZETA","REEXPEDICIÓN","T.U","DESPACHO"};
-    EditText    CodProd;
-    Button      Buscar, detdoc, asoccod, asocbar, asocfech;
+    EditText    CodProd, CodProd2;
+    Button      Buscar, detdoc, asoccod, asocbar, asocfech, Buscar2;
     Spinner     Bod;
     FloatingActionButton Inventariar, Foto;
     private static Spinner Modo;
@@ -75,9 +76,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static TextView tipodoc;
     private static TextView nrodoc;
     private static TextView nroitem;
-    TextView        Ovejita,Pre_Ven, Ubicacion, Sto_Cri, Sto_Des, Sto_Art20, Pre_Oferta_Pesos, Cod_Ubicacion, Cap_Caja, Unidad;
+    TableRow        UbicJuanito,CodUbic,StockBod1, StockCrit, StockDese, StockBod20, CodigUbic, rowRecepcion, butonera, rowPrecioDrenado, rowPrecioxUM;
+    TextView        Ovejita,Pre_Ven, Ubicacion, UniStock, Sto_Cri, Sto_Des, Sto_Art20, Pre_Oferta_Pesos, Cod_Ubicacion, Cap_Caja, Unidad,Precio_UnidadMedida, PrecioDrenado;
     LinearLayout    Botones;
-    TableRow        rowRepecion, butonera;
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
@@ -90,17 +91,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Bod                 = (Spinner)  findViewById(R.id.bod);
         TipoDoc             = (Spinner)  findViewById(R.id.TipoDoc);
         Buscar              = (Button)   findViewById(R.id.butbuscar);
+        Buscar2             = (Button)   findViewById(R.id.butbuscar2);
         asoccod             = (Button)   findViewById(R.id.butcods);
         asocbar             = (Button)   findViewById(R.id.butbarras);
         asocfech            = (Button)   findViewById(R.id.butfechas);
         detdoc              = (Button)   findViewById(R.id.detdoc);
         CodProd             = (EditText) findViewById(R.id.inputCodProd);
+        CodProd2            = (EditText) findViewById(R.id.inputCodProd2);
         Ovejita             = (TextView) findViewById(R.id.ovejita);
         Des_Art             = (TextView) findViewById(R.id.Des_Art);
         Cod_Art             = (TextView) findViewById(R.id.Cod_Art);
         Cod_Barra           = (TextView) findViewById(R.id.Cod_Barra);
         Pre_Ven             = (TextView) findViewById(R.id.Pre_Ven);
         Ubicacion           = (TextView) findViewById(R.id.Ubicacion);
+        UniStock            = (TextView) findViewById(R.id.unidad);
         Sto_Art1            = (TextView) findViewById(R.id.Sto_Art1);
         Sto_Cri             = (TextView) findViewById(R.id.Sto_Cri);
         Sto_Des             = (TextView) findViewById(R.id.Sto_Des);
@@ -116,12 +120,23 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Cap_Caja            = (TextView) findViewById(R.id.CapCaja);
         modox               = (TextView) findViewById(R.id.modox);
         bodx                = (TextView) findViewById(R.id.bodx);
-        rowRepecion         = (TableRow) findViewById(R.id.rowRecepcion);
+        UbicJuanito         = (TableRow) findViewById(R.id.UbicJuanito);
+        CodUbic             = (TableRow) findViewById(R.id.CodUbic);
+        StockBod1           = (TableRow) findViewById(R.id.StockBod1);
+        StockCrit           = (TableRow) findViewById(R.id.StockCrit);
+        StockDese           = (TableRow) findViewById(R.id.StockDese);
+        StockBod20          = (TableRow) findViewById(R.id.StockBod20);
+        CodigUbic           = (TableRow) findViewById(R.id.CodigUbic);
+        rowRecepcion        = (TableRow) findViewById(R.id.rowRecepcion);
         butonera            = (TableRow) findViewById(R.id.butonera);
+        rowPrecioDrenado    = (TableRow) findViewById(R.id.rowPrecioDrenado);
+        rowPrecioxUM        = (TableRow) findViewById(R.id.rowPrecioxUM);
         tipodoc             = (TextView) findViewById(R.id.tipodoc);
         nrodoc              = (TextView) findViewById(R.id.nrodoc);
         nroitem             = (TextView) findViewById(R.id.nroitem);
-        Unidad              = (TextView) findViewById(R.id.unidad);
+        Unidad              = (TextView) findViewById(R.id.UnidadMedida);
+        Precio_UnidadMedida = (TextView) findViewById(R.id.Precio_UnidadMedida);
+        PrecioDrenado       = (TextView) findViewById(R.id.Precio_Drenado);
         Botones             = (LinearLayout) findViewById(R.id.Botones);
         Inventariar         = (FloatingActionButton) findViewById(R.id.Inventariar);
         Foto                = (FloatingActionButton) findViewById(R.id.Foto);
@@ -186,43 +201,103 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //Si la API es versión 30 (Android OS 11) o mayor, entonces enviar la MAC en duro
 
-        //Samsung Tab A10 01 - FCresp
-        //MAC.setText("80:86:D9:28:E5:54");
-        //hostname.setText("CC_Tablet01");
-        //Samsung Tab A10 02 - JSegovia
-        //MAC.setText("F8:F1:E6:12:47:D7");
-        //hostname.setText("CC_Tablet02");
-        //VALENTINA - Samsung Tab A10
-        //MAC.setText("F8:F1:E6:1F:8D:93");
-        //hostname.setText("CC_Tablet03");
-        //ALFREDO - Alcatel 1T7
-        //MAC.setText("64:09:AC:D1:27:1C");
-        //hostname.setText("CC_Tablet04");
-        //Alcatel 05 - 3T8
-        //MAC.setText("64:09:AC:4B:84:00");
-        //hostname.setText("CC_Tablet05");
-        //Alcatel 06 - 3T8
-        //MAC.setText("64:09:AC:23:3C:A5");
-        //hostname.setText("CC_Tablet06");
-        //Alcatel 07 - 3T8
-        //MAC.setText("64:09:AC:2F:E7:FF");
-        //hostname.setText("CC_Tablet07");
-        //Alcatel 08 - 3T8
-        //MAC.setText("64:09:AC:32:0A:0F");
-        //hostname.setText("CC_Tablet08");
-        //Samsung Tab A8 09 - Arnaldo
-        //hostname.setText("CC_Tablet09");
-        //MAC.setText("54:21:9D:CD:CE:64");
-        //Samsung Tab A8 10 - Sebastian
-        //hostname.setText("CC_Tablet10");
-        //MAC.setText("54:21:9D:CA:AA:7E");
+        //Relación hostname/MAC
+        //region
+
+        //01 - FCresp - Samsung Tab A10
+        if (hostname.getText().toString().equals("CC_Tablet01")) {
+            MAC.setText("80:86:D9:28:E5:54");
+        }
+        //02 - JSegovia - Samsung Tab A10
+        else if(hostname.getText().toString().equals("CC_Tablet02")){
+            MAC.setText("F8:F1:E6:12:47:D7");
+        }
+        //03 - Valentina - Samsung Tab A10
+        else if(hostname.getText().toString().equals("CC_Tablet03")){
+            MAC.setText("F8:F1:E6:1F:8D:93");
+        }
+        //04 - Alfredo - Alcatel 1T7
+        else if(hostname.getText().toString().equals("CC_Tablet04")){
+            MAC.setText("64:09:AC:D1:27:1C");
+        }
+        //05 - Christell - Alcatel 3T8
+        else if(hostname.getText().toString().equals("CC_Tablet05")){
+            MAC.setText("64:09:AC:4B:84:00");
+        }
+        //06 - Karen A - Alcatel 3T8
+        else if(hostname.getText().toString().equals("CC_Tablet06")){
+            MAC.setText("64:09:AC:23:3C:A5");
+        }
+        //07 - Aylin F - Alcatel 3T8
+        else if(hostname.getText().toString().equals("CC_Tablet07")){
+            MAC.setText("64:09:AC:2F:E7:FF");
+        }
+        //08 - Andrés J - Alcatel 3T8
+        else if(hostname.getText().toString().equals("CC_Tablet08")){
+            MAC.setText("64:09:AC:32:0A:0F");
+        }
+        //09 - xxx - Samsung Tab A8
+        else if(hostname.getText().toString().equals("CC_Tablet09")){
+            MAC.setText("54:21:9D:CD:CE:64");
+        }
+        //10 - xxx - Samsung Tab A8
+        else if(hostname.getText().toString().equals("CC_Tablet10")){
+            MAC.setText("54:21:9D:CA:AA:7E");
+        }
+        //11 - Patricio A - Virzo funtab7
+        else if(hostname.getText().toString().equals("CC_Tablet11")){
+            MAC.setText("00:27:15:68:79:A9");
+        }
+        //12 - Bladimir M - Virzo funtab7
+        else if(hostname.getText().toString().equals("CC_Tablet12")){
+            MAC.setText("00:27:15:52:06:12");
+        }
+        //13 - Fernanda R - Virzo funtab7
+        else if(hostname.getText().toString().equals("CC_Tablet13")){
+            MAC.setText("00:27:15:78:71:0D");
+        }
+        //14 - Scarleth N - Virzo funtab7
+        else if(hostname.getText().toString().equals("CC_Tablet14")){
+            MAC.setText("00:27:15:11:13:96");
+        }
+        //15 - Alicia M - Virzo funtab7
+        else if(hostname.getText().toString().equals("CC_Tablet15")){
+            MAC.setText("00:27:15:23:33:EB");
+        }
+        //16 - xxx - Virzo funtab7
+        else if(hostname.getText().toString().equals("CC_Tablet16")){
+            MAC.setText("00:27:15:63:83:A1");
+        }
+        //17 - xxx - Virzo funtab7
+        else if(hostname.getText().toString().equals("CC_Tablet17")){
+            MAC.setText("00:27:15:77:40:F3");
+        }
+        //18 - xxx - Virzo funtab7
+        else if(hostname.getText().toString().equals("CC_Tablet18")){
+            MAC.setText("00:27:15:19:80:DD");
+        }
+        //19 - xxx - Virzo funtab7
+        else if(hostname.getText().toString().equals("CC_Tablet19")){
+            MAC.setText("00:27:15:39:15:32");
+        }
+        //20 - xxx - Virzo funtab7
+        else if(hostname.getText().toString().equals("CC_Tablet20")){
+            MAC.setText("00:27:15:46:28:76");
+        }
         //Lenovo Avansis
-        //MAC.setText("98:0C:A5:9A:FE:33");
-        //hostname.setText("Tablet_Avansis");
+        else if(hostname.getText().toString().equals("Tablet_Avansis")){
+            MAC.setText("98:0C:A5:9A:FE:33");
+        }
         //Samsung Jchaves-Avansis
-        //MAC.setText("80:86:D9:28:D9:92");
+        else if(hostname.getText().toString().equals("Samsung_John")){
+            MAC.setText("80:86:D9:28:D9:92");
+        }
         //Samsung Vdelic-Avansis
-        //MAC.setText("80:86:D9:28:DA:3E");
+        else if(hostname.getText().toString().equals("Samsung_VDelic")){
+            MAC.setText("80:86:D9:28:DA:3E");
+        }
+
+        //endregion
 
         Modo.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
         ArrayAdapter bb = new ArrayAdapter(this, android.R.layout.simple_spinner_item,modos);
@@ -234,7 +309,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         cc.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Bod.setAdapter(cc);
         //para bloquear cambio de bodega
-        Bod.setEnabled(true);
+        Bod.setEnabled(false);
 
         TipoDoc.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
         ArrayAdapter dd = new ArrayAdapter(this, android.R.layout.simple_spinner_item,tipodocs);
@@ -263,7 +338,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count,
                                           int after) {
-                // TODO Auto-generated method stub
             }
         });
 
@@ -272,16 +346,56 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 boolean handled = false;
                 if (actionId == CodProd.getImeActionId()){
+
                     if (CodProd.length() <= 5){
                         buscarProducto();
                     }
-                    else{
+                    else {
                         buscarxBarra();
                     }
                     handled = true;
                 }
                 return handled;
             }
+        });
+
+        CodProd2.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if(s.toString().trim().length()==0){
+                    Buscar2.setEnabled(false);
+                } else {
+                    Buscar2.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+            }
+        });
+
+        CodProd2.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+
+                if (actionId == CodProd2.getImeActionId()) {
+                    if (CodProd2.length() <= 5) {
+                        buscarFleje();
+                    } else {
+                        buscarxBarraFleje();
+                    }
+                    handled = true;
+                    }
+                    return false;
+                }
+
         });
 
         nrodoc.addTextChangedListener(new TextWatcher() {
@@ -302,27 +416,37 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count,
                                           int after) {
-                // TODO Auto-generated method stub
             }
         });
 
         Buscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (CodProd.length() <= 5){
+                if ( CodProd.length() <= 5 ) {
                     buscarProducto();
                 }
-                else{
+                else {
                     buscarxBarra();
                 }
             }
         });
 
+        Buscar2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ( CodProd2.length() <= 5) {
+                    buscarFleje();
+                } else {
+                    buscarxBarraFleje();
+                }
+            }
+        });
+
+
         asoccod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this,CodPop.class));
-
             }
         });
 
@@ -330,7 +454,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this,BarPop.class));
-
             }
         });
 
@@ -351,8 +474,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Inventariar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,CantidadPop.class));
-                FETCHA.setText(getCurrentDateandTime());
+                if (Modo.getSelectedItem().equals("Fleje")) {
+                    Toast.makeText(getApplicationContext(),"INSERCIÓN DE DATOS DESHABILITADA PARA MODO FLEJE",Toast.LENGTH_SHORT).show();
+                }
+                    else{
+                        startActivity(new Intent(MainActivity.this, CantidadPop.class));
+                        FETCHA.setText(getCurrentDateandTime());
+                    }
                 }
         });
         Foto.setOnClickListener(new View.OnClickListener() {
@@ -412,36 +540,239 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         if(mode.equals("Cuenta/Inventario")){
             modox.setText("C");
-            rowRepecion.setVisibility(View.GONE);
+            rowRecepcion.setVisibility(View.GONE);
             TipoDoc.setSelection(0);
             tipodoc.setText(null);
             nrodoc.setText(null);
             nroitem.setText(null);
+            CodProd.setVisibility(View.VISIBLE);
+            CodProd2.setVisibility(View.GONE);
+            Buscar.setVisibility(View.VISIBLE);
+            Buscar2.setVisibility(View.GONE);
+            rowPrecioDrenado.setVisibility(View.GONE);
+            rowPrecioxUM.setVisibility(View.GONE);
+            UbicJuanito.setVisibility(View.VISIBLE);
+            CodUbic.setVisibility(View.VISIBLE);
+            StockBod1.setVisibility(View.VISIBLE);
+            StockCrit.setVisibility(View.VISIBLE);
+            StockDese.setVisibility(View.VISIBLE);
+            StockBod20.setVisibility(View.VISIBLE);
+            CodigUbic.setVisibility(View.INVISIBLE);
+
+            Des_Art.setText(null);
+            Cod_Art.setText(null);
+            Cod_Barra.setText(null);
+            Pre_Ven.setText(null);
+            Ubicacion.setText(null);
+            UniStock.setText(null);
+            Sto_Art1.setText(null);
+            Sto_Cri.setText(null);
+            Sto_Des.setText(null);
+            Sto_Art20.setText(null);
+            Pre_Oferta_Pesos.setText(null);
+            Cod_Ubicacion.setText(null);
+            ubiUG.setText(null);
+            ubiUC.setText(null);
+            Cap_Caja.setText(null);
+            tipodoc.setText(null);
+            nrodoc.setText(null);
+            nroitem.setText(null);
+            Unidad.setText(null);
+            Precio_UnidadMedida.setText(null);
+            PrecioDrenado.setText(null);
+
+            CodProd.requestFocus();
         }
         else if(mode.equals("--TIPO DOC--")){
             tipodoc.setText(null);
         }
         else if(mode.equals("Recepción")){
             modox.setText("R");
-            rowRepecion.setVisibility(View.VISIBLE);
+            rowRecepcion.setVisibility(View.VISIBLE);
             TipoDoc.setSelection(0);
+            CodProd.setVisibility(View.VISIBLE);
+            CodProd2.setVisibility(View.GONE);
+            Buscar2.setVisibility(View.GONE);
+            Buscar.setVisibility(View.VISIBLE);
+            rowPrecioDrenado.setVisibility(View.GONE);
+            rowPrecioxUM.setVisibility(View.GONE);
+            UbicJuanito.setVisibility(View.VISIBLE);
+            CodUbic.setVisibility(View.VISIBLE);
+            StockBod1.setVisibility(View.VISIBLE);
+            StockCrit.setVisibility(View.VISIBLE);
+            StockDese.setVisibility(View.VISIBLE);
+            StockBod20.setVisibility(View.VISIBLE);
+            CodigUbic.setVisibility(View.INVISIBLE);
+
+            Des_Art.setText(null);
+            Cod_Art.setText(null);
+            Cod_Barra.setText(null);
+            Pre_Ven.setText(null);
+            Ubicacion.setText(null);
+            UniStock.setText(null);
+            Sto_Art1.setText(null);
+            Sto_Cri.setText(null);
+            Sto_Des.setText(null);
+            Sto_Art20.setText(null);
+            Pre_Oferta_Pesos.setText(null);
+            Cod_Ubicacion.setText(null);
+            ubiUG.setText(null);
+            ubiUC.setText(null);
+            Cap_Caja.setText(null);
+            tipodoc.setText(null);
+            nrodoc.setText(null);
+            nroitem.setText(null);
+            Unidad.setText(null);
+            Precio_UnidadMedida.setText(null);
+            PrecioDrenado.setText(null);
+
+            CodProd.requestFocus();
         }
         else if(mode.equals("Despacho")){
             modox.setText("D");
-            rowRepecion.setVisibility(View.GONE);
+            rowRecepcion.setVisibility(View.GONE);
             TipoDoc.setSelection(0);
             tipodoc.setText(null);
             nrodoc.setText(null);
             nroitem.setText(null);
+            CodProd.setVisibility(View.VISIBLE);
+            CodProd2.setVisibility(View.GONE);
+            Buscar.setVisibility(View.VISIBLE);
+            Buscar2.setVisibility(View.GONE);
+            rowPrecioDrenado.setVisibility(View.GONE);
+            rowPrecioxUM.setVisibility(View.GONE);
+            UbicJuanito.setVisibility(View.VISIBLE);
+            CodUbic.setVisibility(View.VISIBLE);
+            StockBod1.setVisibility(View.VISIBLE);
+            StockCrit.setVisibility(View.VISIBLE);
+            StockDese.setVisibility(View.VISIBLE);
+            StockBod20.setVisibility(View.VISIBLE);
+            CodigUbic.setVisibility(View.INVISIBLE);
+
+            Des_Art.setText(null);
+            Cod_Art.setText(null);
+            Cod_Barra.setText(null);
+            Pre_Ven.setText(null);
+            Ubicacion.setText(null);
+            UniStock.setText(null);
+            Sto_Art1.setText(null);
+            Sto_Cri.setText(null);
+            Sto_Des.setText(null);
+            Sto_Art20.setText(null);
+            Pre_Oferta_Pesos.setText(null);
+            Cod_Ubicacion.setText(null);
+            ubiUG.setText(null);
+            ubiUC.setText(null);
+            Cap_Caja.setText(null);
+            tipodoc.setText(null);
+            nrodoc.setText(null);
+            nroitem.setText(null);
+            Unidad.setText(null);
+            Precio_UnidadMedida.setText(null);
+            PrecioDrenado.setText(null);
+
+            CodProd.requestFocus();
         }
         else if(mode.equals("Merma")){
             modox.setText("M");
+            rowRecepcion.setVisibility(View.GONE);
+            TipoDoc.setSelection(0);
+            tipodoc.setText(null);
+            nrodoc.setText(null);
+            nroitem.setText(null);
+            CodProd.setVisibility(View.VISIBLE);
+            CodProd2.setVisibility(View.GONE);
+            Buscar.setVisibility(View.VISIBLE);
+            Buscar2.setVisibility(View.GONE);
+            rowPrecioDrenado.setVisibility(View.GONE);
+            rowPrecioxUM.setVisibility(View.GONE);
+            UbicJuanito.setVisibility(View.VISIBLE);
+            CodUbic.setVisibility(View.VISIBLE);
+            StockBod1.setVisibility(View.VISIBLE);
+            StockCrit.setVisibility(View.VISIBLE);
+            StockDese.setVisibility(View.VISIBLE);
+            StockBod20.setVisibility(View.VISIBLE);
+            CodigUbic.setVisibility(View.INVISIBLE);
+
+            Des_Art.setText(null);
+            Cod_Art.setText(null);
+            Cod_Barra.setText(null);
+            Pre_Ven.setText(null);
+            Ubicacion.setText(null);
+            UniStock.setText(null);
+            Sto_Art1.setText(null);
+            Sto_Cri.setText(null);
+            Sto_Des.setText(null);
+            Sto_Art20.setText(null);
+            Pre_Oferta_Pesos.setText(null);
+            Cod_Ubicacion.setText(null);
+            ubiUG.setText(null);
+            ubiUC.setText(null);
+            Cap_Caja.setText(null);
+            tipodoc.setText(null);
+            nrodoc.setText(null);
+            nroitem.setText(null);
+            Unidad.setText(null);
+            Precio_UnidadMedida.setText(null);
+            PrecioDrenado.setText(null);
+
+            CodProd.requestFocus();
+        }
+        else if(mode.equals("Fleje")){
+            modox.setText(null);
+            rowRecepcion.setVisibility(View.GONE);
+            TipoDoc.setSelection(0);
+            tipodoc.setText(null);
+            nrodoc.setText(null);
+            nroitem.setText(null);
+            CodProd.setVisibility(View.GONE);
+            CodProd2.setVisibility(View.VISIBLE);
+            Buscar.setVisibility(View.GONE);
+            Buscar2.setVisibility(View.VISIBLE);
+            rowPrecioDrenado.setVisibility(View.VISIBLE);
+            rowPrecioxUM.setVisibility(View.VISIBLE);
+            UbicJuanito.setVisibility(View.GONE);
+            CodUbic.setVisibility(View.GONE);
+            StockBod1.setVisibility(View.GONE);
+            StockCrit.setVisibility(View.GONE);
+            StockDese.setVisibility(View.GONE);
+            StockBod20.setVisibility(View.GONE);
+            CodigUbic.setVisibility(View.GONE);
+
+            Des_Art.setText(null);
+            Cod_Art.setText(null);
+            Cod_Barra.setText(null);
+            Pre_Ven.setText(null);
+            Ubicacion.setText(null);
+            UniStock.setText(null);
+            Sto_Art1.setText(null);
+            Sto_Cri.setText(null);
+            Sto_Des.setText(null);
+            Sto_Art20.setText(null);
+            Pre_Oferta_Pesos.setText(null);
+            Cod_Ubicacion.setText(null);
+            ubiUG.setText(null);
+            ubiUC.setText(null);
+            Cap_Caja.setText(null);
+            tipodoc.setText(null);
+            nrodoc.setText(null);
+            nroitem.setText(null);
+            Unidad.setText(null);
+            Precio_UnidadMedida.setText(null);
+            PrecioDrenado.setText(null);
+
+            CodProd2.requestFocus();
+        }
+        /*
+        else if(mode.equals("John")){
+            modox.setText("J");
             rowRepecion.setVisibility(View.GONE);
             TipoDoc.setSelection(0);
             tipodoc.setText(null);
             nrodoc.setText(null);
             nroitem.setText(null);
         }
+        */
         else if (mode.equals("Bod 1 - Supermercado")){
             bodx.setText("1");
         }
@@ -465,15 +796,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
         else if (mode.equals("ZETA")) {
             tipodoc.setText("Z");
+            nrodoc.requestFocus();
         }
         else if (mode.equals("REEXPEDICIÓN")) {
             tipodoc.setText("R");
+            nrodoc.requestFocus();
         }
         else if (mode.equals("T.U")) {
             tipodoc.setText("T");
+            nrodoc.requestFocus();
         }
         else if (mode.equals("DESPACHO")) {
             tipodoc.setText("B");
+            nrodoc.requestFocus();
         }
     }
 
@@ -513,7 +848,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 ubiUG.setText(rs.getString(12));
                 ubiUC.setText(rs.getString(13));
                 Cap_Caja.setText(rs.getString(14));
-                Unidad.setText(rs.getString(15));
+                UniStock.setText(rs.getString(15));
 
             }
             else{
@@ -555,7 +890,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 ubiUG.setText(rs.getString(12));
                 ubiUC.setText(rs.getString(13));
                 Cap_Caja.setText(rs.getString(14));
-                Unidad.setText(rs.getInt(15));
+                UniStock.setText(rs.getInt(15));
 
             }
             else{
@@ -574,10 +909,85 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
+    public void buscarFleje(){
+        try{
+            Statement stm = conexionDB().createStatement();
+            ResultSet rs = stm.executeQuery("EXEC Sp_C_ConsultorApp @Modo = 'F'," +
+                    "@CodBod = '"+bodx.getText().toString()+"', @CodArt = '"+CodProd2.getText().toString()+"' ");
+
+            if(rs.next()){
+                Des_Art.setText(rs.getString(2));
+                Cod_Art.setText(rs.getString(1));
+                Cod_Barra.setText(rs.getString(3));
+                Pre_Ven.setText("$"+rs.getString(4));
+                Pre_Oferta_Pesos.setText("$"+rs.getString(5));
+                Cap_Caja.setText(rs.getString(6));
+                Unidad.setText(rs.getString(17));
+                Precio_UnidadMedida.setText("$"+rs.getString(10));
+                PrecioDrenado.setText(rs.getString(16));
+
+            }
+            else{
+                Toast.makeText(getApplicationContext(),"CÓDIGO INVÁLIDO O INEXISTENTE EN SUPERMERCADO",Toast.LENGTH_SHORT).show();
+            }
+
+            CodProd2.setText("");
+            CodProd2.requestFocus();
+            Botones.setVisibility(View.VISIBLE);
+            asoccod.setEnabled(true);
+            asocbar.setEnabled(true);
+            asocfech.setEnabled(true);
+
+        }catch (Exception e){
+            //Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
+        CodProd2.setText("");
+        CodProd2.requestFocus();
+        Botones.setVisibility(View.VISIBLE);
+    }
+
+    public void buscarxBarraFleje(){
+        try{
+            Statement stm = conexionDB().createStatement();
+            ResultSet rs = stm.executeQuery("EXEC Sp_C_ConsultorApp @Modo = 'G'," +
+                    "@CodBod = '"+bodx.getText().toString()+"', @CodBar = '"+CodProd2.getText().toString()+"' ");
+
+            if(rs.next()){
+                Des_Art.setText(rs.getString(2));
+                Cod_Art.setText(rs.getString(1));
+                Cod_Barra.setText(rs.getString(3));
+                Pre_Ven.setText("$"+rs.getString(4));
+                Pre_Oferta_Pesos.setText("$"+rs.getString(5));
+                Cap_Caja.setText(rs.getString(6));
+                Unidad.setText(rs.getString(17));
+                Precio_UnidadMedida.setText("$"+rs.getString(10));
+                PrecioDrenado.setText(rs.getString(16));
+
+            }
+            else{
+                Toast.makeText(getApplicationContext(),"CÓDIGO INVÁLIDO O INEXISTENTE EN SUPERMERCADO",Toast.LENGTH_SHORT).show();
+            }
+            CodProd2.setText("");
+            CodProd2.requestFocus();
+            Botones.setVisibility(View.VISIBLE);
+
+        }catch (Exception e){
+            //Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
+        CodProd2.setText("");
+        CodProd2.requestFocus();
+        Botones.setVisibility(View.VISIBLE);
+
+    }
+
+
+
     public static TextView getModox() { return modox; }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
+
 }

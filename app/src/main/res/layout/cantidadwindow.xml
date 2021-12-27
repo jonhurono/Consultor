@@ -213,7 +213,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/burdeoCentral"
                     android:textColor="@color/white"
-                    android:text="SALIR"
+                    android:text="@string/salir"
                     android:layout_gravity="center"
                     android:textSize="15sp"
                     />

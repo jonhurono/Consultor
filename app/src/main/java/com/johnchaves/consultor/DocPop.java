@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.DisplayMetrics;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +19,7 @@ public class DocPop extends Activity {
     TextView coddoc, codartt, cantt;
     TextView Cod_Art = MainActivity.getCod_Art();
     TextView nrodoc = MainActivity.getNrodoc();
+    Button   back;
 
     @Override
     protected void onCreate (Bundle savedInstanceState){
@@ -29,11 +32,19 @@ public class DocPop extends Activity {
         int height = dm.heightPixels;
         getWindow().setLayout((int)(width*.6),(int)(height*.25));
 
+        back    = (Button) findViewById(R.id.btnSalirDoc);
         coddoc  = (TextView) findViewById(R.id.coddoc);
         codartt = (TextView) findViewById(R.id.codartt);
         cantt   = (TextView) findViewById(R.id.cantt);
 
         buscarDocs();
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 

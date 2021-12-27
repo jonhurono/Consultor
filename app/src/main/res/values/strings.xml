@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Consultor</string>
+    <string name="salir">SALIR</string>
+
     <string-array name="Cod_Cara">
         <item>Norte</item>
         <item>Sur</item>

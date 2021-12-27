@@ -15,4 +15,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <Button
+        android:id="@+id/btnSalirImg"
+        android:layout_width="50mm"
+        android:layout_height="10mm"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="15dp"
+        android:text="@string/salir"
+        android:layout_gravity="center"
+        android:textSize="15sp"
+        android:background="@color/burdeoCentral"
+        android:textColor="@color/white"/>
 </android.support.constraint.ConstraintLayout>

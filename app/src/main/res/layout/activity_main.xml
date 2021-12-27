@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,16 +9,21 @@
 
 
     <nl.dionsegijn.konfetti.KonfettiView
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/konfettiView"
-        android:layoutDirection="inherit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        android:layoutDirection="inherit" />
 
     <LinearLayout
 
         android:id="@+id/primeraFila"
         android:layout_alignParentTop="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -53,6 +58,19 @@
                 android:textStyle="bold" />
 
             <EditText
+                android:id="@+id/inputCodProd2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.45"
+                android:ems="10"
+                android:visibility="gone"
+                android:imeOptions="actionSend"
+                android:inputType="number"
+                android:minHeight="50dp"
+                android:textSize="24sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <EditText
                 android:id="@+id/inputCodProd"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -68,6 +86,7 @@
     </LinearLayout>
 
     <LinearLayout
+        app:layout_constraintTop_toBottomOf="@id/primeraFila"
         android:id="@+id/segundaFila"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -112,12 +131,28 @@
                 android:text="BUSCAR"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/butbuscar2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:text="BUSCAR FLEJE"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:visibility="gone"/>
+
         </TableRow>
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/terceraFila"
+        app:layout_constraintTop_toBottomOf="@id/segundaFila"
         android:layout_below="@id/segundaFila"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -174,6 +209,7 @@
 
     <LinearLayout
         android:id="@+id/cuartaFila"
+        app:layout_constraintTop_toBottomOf="@id/terceraFila"
         android:layout_below="@id/terceraFila"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -238,17 +274,21 @@
         </TableRow>
     </LinearLayout>
 
-    <LinearLayout
+    <ScrollView
         android:id="@+id/quintaFila"
+        app:layout_constraintTop_toBottomOf="@id/cuartaFila"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_below="@id/cuartaFila"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
+
         <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
             <TableRow
                 android:id="@+id/CodiArti"
@@ -334,24 +374,7 @@
                     android:textStyle="bold" />
             </TableRow>
 
-        </TableLayout>
-    </LinearLayout>
-
-    <ScrollView
-        android:id="@+id/sextaFila"
-        android:layout_below="@id/quintaFila"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TableLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TableRow
+            <TableRow
                     android:id="@+id/CodUbic"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -633,6 +656,83 @@
                 </TableRow>
 
                 <TableRow
+                    android:id="@+id/rowPrecioDrenado"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    >
+
+                    <TextView
+                        android:id="@+id/lblPrecio_Drenado"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Precio Drenado"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/Precio_Drenado"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/Precio_Drenado2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
+                </TableRow>
+                <TableRow
+                    android:id="@+id/rowPrecioxUM"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="invisible">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp">
+
+                        <TextView
+                            android:id="@+id/lbl_UnidadMedida"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Precio x "
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/UnidadMedida"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </TableRow>
+
+                    <TextView
+                        android:id="@+id/Precio_UnidadMedida"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+
+                </TableRow>
+
+                <TableRow
                     android:id="@+id/CodigUbic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -673,7 +773,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="10dp"
-                        android:text="MAC aquí" />
+                        android:text="REVISAR MAC!!!" />
 
                     <TextView
                         android:id="@+id/IP"
@@ -711,38 +811,44 @@
                         android:layout_height="wrap_content" />
                 </TableRow>
 
-            </TableLayout>
-
-            <LinearLayout
-                android:id="@+id/Botones"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:gravity="center_horizontal|center_vertical"
-                android:orientation="vertical"
-                android:visibility="invisible">
-
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/Inventariar"
-                    android:layout_width="65dp"
-                    android:layout_height="65dp"
-                    android:layout_gravity="center_horizontal|center_vertical"
-                    android:layout_marginBottom="10dp"
-                    android:clickable="true"
-                    app:backgroundTint="#EF9A9A"
-                    app:srcCompat="@android:drawable/ic_menu_edit" />
-
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/Foto"
-                    android:layout_width="65dp"
-                    android:layout_height="65dp"
-                    android:layout_gravity="center_horizontal|center_vertical"
-                    android:clickable="true"
-                    app:backgroundTint="#EF9A9A"
-                    app:srcCompat="@android:drawable/ic_menu_gallery" />
-            </LinearLayout>
-
-        </LinearLayout>
+        </TableLayout>
     </ScrollView>
 
-</RelativeLayout>
+    <LinearLayout
+
+        android:id="@+id/Botones"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/terceraFila"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="175dp"
+        android:orientation="vertical"
+        android:visibility="invisible">
+
+        <android.support.design.widget.FloatingActionButton
+
+            android:id="@+id/Inventariar"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:clickable="true"
+            app:backgroundTint="#EF9A9A"
+            app:srcCompat="@android:drawable/ic_menu_edit"
+            />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/Foto"
+            android:layout_marginTop="50dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:clickable="true"
+            app:backgroundTint="#EF9A9A"
+            app:fabSize="auto"
+            app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+    </LinearLayout>
+
+
+
+
+</android.support.constraint.ConstraintLayout>

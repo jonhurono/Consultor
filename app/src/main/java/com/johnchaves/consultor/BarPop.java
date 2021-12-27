@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.DisplayMetrics;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +19,7 @@ public class BarPop extends Activity {
     TextView barasoc1, barasoc2, barasoc3, cod1, mainbarra;
     TextView Cod_Art = MainActivity.getCod_Art();
     TextView Cod_Bar = MainActivity.getCod_Barra();
+    Button   back;
 
     @Override
     protected void onCreate (Bundle savedInstanceState){
@@ -30,6 +33,7 @@ public class BarPop extends Activity {
         int height = dm.heightPixels;
         getWindow().setLayout((int)(width*.6),(int)(height*.25));
 
+        back        = (Button) findViewById(R.id.btnSalirBar);
         cod1        = (TextView) findViewById(R.id.cod1);
         mainbarra   = (TextView) findViewById(R.id.mainbarra);
         barasoc1    = (TextView) findViewById(R.id.barasoc1);
@@ -40,6 +44,13 @@ public class BarPop extends Activity {
 
         cod1.setText(Cod_Art.getText());
         mainbarra.setText(Cod_Bar.getText());
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     public Connection conexionDB(){

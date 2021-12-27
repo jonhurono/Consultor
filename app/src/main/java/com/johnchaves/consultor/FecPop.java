@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ public class FecPop extends Activity {
 
     TextView qui_sto, cri_sto, ult_com, ult_ven;
     TextView Cod_Art = MainActivity.getCod_Art();
+    Button back;
 
     @Override
     protected void onCreate (Bundle savedInstanceState){
@@ -29,12 +31,20 @@ public class FecPop extends Activity {
         int height = dm.heightPixels;
         getWindow().setLayout((int)(width*.7),(int)(height*.25));
 
+        back    = (Button) findViewById(R.id.btnSalirFec);
         qui_sto = (TextView) findViewById(R.id.qui_sto);
         cri_sto = (TextView) findViewById(R.id.cri_sto);
         ult_com = (TextView) findViewById(R.id.ult_com);
         ult_ven = (TextView) findViewById(R.id.ult_ven);
 
         buscarFechas();
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     public Connection conexionDB(){

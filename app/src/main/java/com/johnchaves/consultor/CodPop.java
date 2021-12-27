@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.DisplayMetrics;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +18,7 @@ public class CodPop extends Activity {
 
     TextView cod1, cod2, tipocod, despad;
     TextView Cod_Art = MainActivity.getCod_Art();
+    Button   back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -28,12 +31,20 @@ public class CodPop extends Activity {
         int height = dm.heightPixels;
         getWindow().setLayout((int)(width*.75),(int)(height*.25));
 
+        back    = (Button) findViewById(R.id.btnSalirCod);
         cod1    = (TextView) findViewById(R.id.cod1);
         cod2    = (TextView) findViewById(R.id.cod2);
         tipocod = (TextView) findViewById(R.id.tipocod);
         despad  = (TextView) findViewById(R.id.des_pad);
 
         buscarCods();
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     public Connection conexionDB(){
