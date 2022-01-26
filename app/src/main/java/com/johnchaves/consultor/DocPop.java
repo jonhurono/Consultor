@@ -18,7 +18,7 @@ public class DocPop extends Activity {
 
     TextView coddoc, codartt, cantt;
     TextView Cod_Art = MainActivity.getCod_Art();
-    TextView nrodoc = MainActivity.getNrodoc();
+    TextView nrodoc = MainActivity.getLblnrodoc();
     Button   back;
 
     @Override

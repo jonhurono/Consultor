@@ -58,8 +58,8 @@ public class CantidadPop extends Activity implements OnItemSelectedListener{
     TextView modox = MainActivity.getModox();
     TextView bodx = MainActivity.getBodx();
     TextView tipodoc = MainActivity.getTipodoc();
-    TextView nrodoc = MainActivity.getNrodoc();
-    TextView nroitem = MainActivity.getNroitem();
+    TextView nrodoc = MainActivity.getLblnrodoc();
+    TextView nroitem = MainActivity.getLblnroitem();
     EditText FecVen1, FecVen2, FecVen3;
 
     @Override

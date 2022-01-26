@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     String []   bodegas = {"Bod 1 - Supermercado","Bod 2 - Sala de Proceso",
             "Bod 4 - Intermedia","Bod 5 - Verduras", "Bod 6 - Cecinas", "Bod 10 - De Transito", "Bod 20 - Particular"};
     String []   tipodocs = {"--TIPO DOC--","ZETA","REEXPEDICIÓN","T.U","DESPACHO"};
-    EditText    CodProd, CodProd2;
+    EditText    CodProd, CodProd2, nrodoc, nroitem;
     Button      Buscar, detdoc, asoccod, asocbar, asocfech, Buscar2;
     Spinner     Bod;
     FloatingActionButton Inventariar, Foto;
@@ -74,8 +74,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static TextView modox;
     private static TextView bodx;
     private static TextView tipodoc;
-    private static TextView nrodoc;
-    private static TextView nroitem;
+    private static TextView lblnrodoc;
+    private static TextView lblnroitem;
     TableRow        UbicJuanito,CodUbic,StockBod1, StockCrit, StockDese, StockBod20, CodigUbic, rowRecepcion, butonera, rowPrecioDrenado, rowPrecioxUM;
     TextView        Ovejita,Pre_Ven, Ubicacion, UniStock, Sto_Cri, Sto_Des, Sto_Art20, Pre_Oferta_Pesos, Cod_Ubicacion, Cap_Caja, Unidad,Precio_UnidadMedida, PrecioDrenado;
     LinearLayout    Botones;
@@ -132,8 +132,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         rowPrecioDrenado    = (TableRow) findViewById(R.id.rowPrecioDrenado);
         rowPrecioxUM        = (TableRow) findViewById(R.id.rowPrecioxUM);
         tipodoc             = (TextView) findViewById(R.id.tipodoc);
-        nrodoc              = (TextView) findViewById(R.id.nrodoc);
-        nroitem             = (TextView) findViewById(R.id.nroitem);
+        nrodoc              = (EditText) findViewById(R.id.nrodoc);
+        nroitem             = (EditText) findViewById(R.id.nroitem);
+        lblnrodoc           = (TextView) findViewById(R.id.lbl_nrodoc);
+        lblnroitem          = (TextView) findViewById(R.id.lbl_nroitem);
         Unidad              = (TextView) findViewById(R.id.UnidadMedida);
         Precio_UnidadMedida = (TextView) findViewById(R.id.Precio_UnidadMedida);
         PrecioDrenado       = (TextView) findViewById(R.id.Precio_Drenado);
@@ -204,6 +206,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //Relación hostname/MAC
         //region
 
+        Bod.setEnabled(false);
         //01 - FCresp - Samsung Tab A10
         if (hostname.getText().toString().equals("CC_Tablet01")) {
             MAC.setText("80:86:D9:28:E5:54");
@@ -223,6 +226,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //05 - Christell - Alcatel 3T8
         else if(hostname.getText().toString().equals("CC_Tablet05")){
             MAC.setText("64:09:AC:4B:84:00");
+            Bod.setEnabled(true);
         }
         //06 - Karen A - Alcatel 3T8
         else if(hostname.getText().toString().equals("CC_Tablet06")){
@@ -236,9 +240,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         else if(hostname.getText().toString().equals("CC_Tablet08")){
             MAC.setText("64:09:AC:32:0A:0F");
         }
-        //09 - xxx - Samsung Tab A8
+        //09 - Arnaldo - Samsung Tab A8
         else if(hostname.getText().toString().equals("CC_Tablet09")){
             MAC.setText("54:21:9D:CD:CE:64");
+            Bod.setEnabled(true);
         }
         //10 - xxx - Samsung Tab A8
         else if(hostname.getText().toString().equals("CC_Tablet10")){
@@ -287,14 +292,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //Lenovo Avansis
         else if(hostname.getText().toString().equals("Tablet_Avansis")){
             MAC.setText("98:0C:A5:9A:FE:33");
+            Bod.setEnabled(true);
         }
         //Samsung Jchaves-Avansis
         else if(hostname.getText().toString().equals("Samsung_John")){
             MAC.setText("80:86:D9:28:D9:92");
+            Bod.setEnabled(true);
         }
         //Samsung Vdelic-Avansis
         else if(hostname.getText().toString().equals("Samsung_VDelic")){
             MAC.setText("80:86:D9:28:DA:3E");
+            Bod.setEnabled(true);
         }
 
         //endregion
@@ -309,7 +317,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         cc.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Bod.setAdapter(cc);
         //para bloquear cambio de bodega
-        Bod.setEnabled(false);
+        //Bod.setEnabled(false);
+
 
         TipoDoc.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
         ArrayAdapter dd = new ArrayAdapter(this, android.R.layout.simple_spinner_item,tipodocs);
@@ -351,7 +360,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         buscarProducto();
                     }
                     else {
-                        buscarxBarra();
+                        buscarBarra();
                     }
                     handled = true;
                 }
@@ -393,7 +402,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     }
                     handled = true;
                     }
-                    return false;
+                    return handled;
                 }
 
         });
@@ -419,6 +428,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
+        nrodoc.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+
+                if (actionId == nrodoc.getImeActionId()){
+
+                    nroitem.requestFocus();
+
+                    handled = true;
+                }
+                return handled;
+            }
+        });
+
         Buscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -426,7 +450,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     buscarProducto();
                 }
                 else {
-                    buscarxBarra();
+                    buscarBarra();
                 }
             }
         });
@@ -475,13 +499,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View v) {
                 if (Modo.getSelectedItem().equals("Fleje")) {
-                    Toast.makeText(getApplicationContext(),"INSERCIÓN DE DATOS DESHABILITADA PARA MODO FLEJE",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "INSERCIÓN DE DATOS DESHABILITADA PARA MODO FLEJE", Toast.LENGTH_SHORT).show();
+                } else {
+                    startActivity(new Intent(MainActivity.this, CantidadPop.class));
+                    FETCHA.setText(getCurrentDateandTime());
+                    lblnrodoc.setText(nrodoc.getText().toString());
+                    lblnroitem.setText(nroitem.getText().toString());
                 }
-                    else{
-                        startActivity(new Intent(MainActivity.this, CantidadPop.class));
-                        FETCHA.setText(getCurrentDateandTime());
-                    }
-                }
+            }
         });
         Foto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -490,7 +515,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
-        Ovejita.setOnTouchListener(new View.OnTouchListener() {
+        /*Ovejita.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 int counter = 0;
@@ -511,7 +536,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 Log.i("LOG_RESPONSE", "Screen touched!");
                 return false;
             }
-        });
+        });*/
 
     }
 
@@ -531,20 +556,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public static TextView getDes_Art(){ return Des_Art; }
     public static TextView getBodx(){ return bodx; }
     public static TextView getTipodoc() { return tipodoc; }
-    public static TextView getNrodoc() { return nrodoc; }
-    public static TextView getNroitem() { return nroitem; }
+    public static TextView getLblnrodoc() { return lblnrodoc; }
+    public static TextView getLblnroitem() { return lblnroitem; }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String mode = parent.getSelectedItem().toString();
 
+
         if(mode.equals("Cuenta/Inventario")){
             modox.setText("C");
             rowRecepcion.setVisibility(View.GONE);
             TipoDoc.setSelection(0);
-            tipodoc.setText(null);
-            nrodoc.setText(null);
-            nroitem.setText(null);
             CodProd.setVisibility(View.VISIBLE);
             CodProd2.setVisibility(View.GONE);
             Buscar.setVisibility(View.VISIBLE);
@@ -626,15 +649,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             Precio_UnidadMedida.setText(null);
             PrecioDrenado.setText(null);
 
-            CodProd.requestFocus();
+            TipoDoc.requestFocus();
+            //CodProd.requestFocus();
         }
         else if(mode.equals("Despacho")){
             modox.setText("D");
             rowRecepcion.setVisibility(View.GONE);
             TipoDoc.setSelection(0);
-            tipodoc.setText(null);
-            nrodoc.setText(null);
-            nroitem.setText(null);
             CodProd.setVisibility(View.VISIBLE);
             CodProd2.setVisibility(View.GONE);
             Buscar.setVisibility(View.VISIBLE);
@@ -677,9 +698,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             modox.setText("M");
             rowRecepcion.setVisibility(View.GONE);
             TipoDoc.setSelection(0);
-            tipodoc.setText(null);
-            nrodoc.setText(null);
-            nroitem.setText(null);
             CodProd.setVisibility(View.VISIBLE);
             CodProd2.setVisibility(View.GONE);
             Buscar.setVisibility(View.VISIBLE);
@@ -722,9 +740,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             modox.setText(null);
             rowRecepcion.setVisibility(View.GONE);
             TipoDoc.setSelection(0);
-            tipodoc.setText(null);
-            nrodoc.setText(null);
-            nroitem.setText(null);
             CodProd.setVisibility(View.GONE);
             CodProd2.setVisibility(View.VISIBLE);
             Buscar.setVisibility(View.GONE);
@@ -869,7 +884,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Botones.setVisibility(View.VISIBLE);
     }
 
-    public void buscarxBarra(){
+    public void buscarBarra(){
         try{
             Statement stm = conexionDB().createStatement();
             ResultSet rs = stm.executeQuery("EXEC Sp_C_ConsultorApp @Modo = 'B'," +
@@ -881,7 +896,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 Cod_Barra.setText(rs.getString(3));
                 Pre_Ven.setText("$"+rs.getString(4));
                 Pre_Oferta_Pesos.setText("$"+rs.getString(5));
-                Sto_Art1.setText((int) rs.getFloat(6));
+                Sto_Art1.setText(rs.getString(6));
                 Sto_Cri.setText(rs.getString(7));
                 Ubicacion.setText(rs.getString(8));
                 Sto_Art20.setText(rs.getString(9));
@@ -890,7 +905,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 ubiUG.setText(rs.getString(12));
                 ubiUC.setText(rs.getString(13));
                 Cap_Caja.setText(rs.getString(14));
-                UniStock.setText(rs.getInt(15));
+                UniStock.setText(rs.getString(15));
 
             }
             else{
@@ -899,6 +914,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             CodProd.setText("");
             CodProd.requestFocus();
             Botones.setVisibility(View.VISIBLE);
+            asoccod.setEnabled(true);
+            asocbar.setEnabled(true);
+            asocfech.setEnabled(true);
 
         }catch (Exception e){
             //Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();

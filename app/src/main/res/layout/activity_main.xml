@@ -40,7 +40,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.45"
                 android:gravity="start|center_vertical"
-                android:text="INGRESAR CÓDIGO"
+                android:text="INGRESAR CÓDIGO."
                 android:textAlignment="viewStart"
                 android:textAllCaps="true"
                 android:textSize="25sp"
@@ -117,7 +117,8 @@
                 android:animateLayoutChanges="false"
                 android:background="#EF9A9A"
                 android:backgroundTintMode="src_atop"
-                android:spinnerMode="dialog" />
+                android:spinnerMode="dialog"
+                />
 
             <Button
                 android:id="@+id/butbuscar"
@@ -236,7 +237,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="2dp"
-                android:text="NRO DOC"
+                android:text="N° DOC"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -245,7 +246,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="2dp"
+                android:imeOptions="actionSend"
                 android:ems="3"
+                tools:ignore="SpeakableTextPresentCheck"
                 android:inputType="number" />
 
             <Button
@@ -260,7 +263,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="2dp"
-                android:text="NRO ITEM"
+                android:text="N° ITEM"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -269,7 +272,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="3"
+                tools:ignore="SpeakableTextPresentCheck"
+                android:imeOptions="actionSend"
                 android:inputType="number" />
+
+            <TextView
+                android:id="@+id/lbl_nrodoc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="2dp"
+                android:visibility="invisible"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/lbl_nroitem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="2dp"
+                android:visibility="invisible"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
         </TableRow>
     </LinearLayout>
