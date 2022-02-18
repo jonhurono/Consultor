@@ -16,7 +16,7 @@ import java.sql.Statement;
 
 public class FecPop extends Activity {
 
-    TextView qui_sto, cri_sto, ult_com, ult_ven;
+    TextView qui_sto, cri_sto, ult_com, ult_ven, fec_ven;
     TextView Cod_Art = MainActivity.getCod_Art();
     Button back;
 
@@ -29,13 +29,14 @@ public class FecPop extends Activity {
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
         int height = dm.heightPixels;
-        getWindow().setLayout((int)(width*.7),(int)(height*.25));
+        getWindow().setLayout((int)(width*.7),(int)(height*.35));
 
         back    = (Button) findViewById(R.id.btnSalirFec);
         qui_sto = (TextView) findViewById(R.id.qui_sto);
         cri_sto = (TextView) findViewById(R.id.cri_sto);
         ult_com = (TextView) findViewById(R.id.ult_com);
         ult_ven = (TextView) findViewById(R.id.ult_ven);
+        fec_ven = (TextView) findViewById(R.id.fec_ven);
 
         buscarFechas();
 
@@ -72,6 +73,7 @@ public class FecPop extends Activity {
                 cri_sto.setText(rs.getString(3));
                 ult_com.setText(rs.getString(4));
                 ult_ven.setText(rs.getString(5));
+                fec_ven.setText(rs.getString(6)+", Bod:"+rs.getString(7));
             }
             else{
                 Toast.makeText(getApplicationContext(),"ERROR AL CONSULTAR FECHAS",Toast.LENGTH_SHORT).show();
