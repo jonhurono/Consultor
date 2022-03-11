@@ -73,7 +73,7 @@ public class FecPop extends Activity {
                 cri_sto.setText(rs.getString(3));
                 ult_com.setText(rs.getString(4));
                 ult_ven.setText(rs.getString(5));
-                fec_ven.setText(rs.getString(6)+", Bod:"+rs.getString(7));
+                fec_ven.setText(rs.getString(6)+", Saldo:"+rs.getString(7));
             }
             else{
                 Toast.makeText(getApplicationContext(),"ERROR AL CONSULTAR FECHAS",Toast.LENGTH_SHORT).show();

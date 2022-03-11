@@ -53,5 +53,9 @@
             android:name=".FotoPop"
             android:theme="@style/Theme.Consultor.CustomTheme"
             />
+        <activity
+            android:name=".VencPop"
+            android:theme="@style/Theme.Consultor.CustomTheme"
+            />
     </application>
 </manifest>

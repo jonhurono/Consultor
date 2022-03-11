@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             "Bod 4 - Intermedia","Bod 5 - Verduras", "Bod 6 - Cecinas", "Bod 10 - De Transito", "Bod 20 - Particular"};
     String []   tipodocs = {"--TIPO DOC--","ZETA","REEXPEDICIÓN","T.U","DESPACHO"};
     EditText    CodProd, CodProd2, nrodoc, nroitem;
-    Button      Buscar, detdoc, asoccod, asocbar, asocfech, Buscar2;
+    Button      Buscar, detdoc, asoccod, asocbar, asocfech, Buscar2, asocvenc;
     Spinner     Bod;
     FloatingActionButton Inventariar, Foto;
     private static Spinner Modo;
@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         asocbar             = (Button)   findViewById(R.id.butbarras);
         asocfech            = (Button)   findViewById(R.id.butfechas);
         detdoc              = (Button)   findViewById(R.id.detdoc);
+        asocvenc            = (Button)   findViewById(R.id.butvencimiento);
         CodProd             = (EditText) findViewById(R.id.inputCodProd);
         CodProd2            = (EditText) findViewById(R.id.inputCodProd2);
         Ovejita             = (TextView) findViewById(R.id.ovejita);
@@ -171,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //Solo utilizar en Android OS 10 (API 29) o menor
 
-/*
+        /*
         try {
             List<NetworkInterface> networkInterfaceList = Collections.list(NetworkInterface.getNetworkInterfaces());
 
@@ -198,7 +199,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         } catch (SocketException e) {
             e.printStackTrace();
         }
-*/
+        */
+
         //aquí se acaba el try catch de MAC
 
         //Si la API es versión 30 (Android OS 11) o mayor, entonces enviar la MAC en duro
@@ -210,10 +212,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //01 - FCresp - Samsung Tab A10
         if (hostname.getText().toString().equals("CC_Tablet01")) {
             MAC.setText("80:86:D9:28:E5:54");
+            Bod.setEnabled(true);
         }
         //02 - JSegovia - Samsung Tab A10
         else if(hostname.getText().toString().equals("CC_Tablet02")){
             MAC.setText("F8:F1:E6:12:47:D7");
+            Bod.setEnabled(true);
         }
         //03 - Valentina - Samsung Tab A10
         else if(hostname.getText().toString().equals("CC_Tablet03")){
@@ -248,6 +252,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //10 - xxx - Samsung Tab A8
         else if(hostname.getText().toString().equals("CC_Tablet10")){
             MAC.setText("54:21:9D:CA:AA:7E");
+            Bod.setEnabled(true);
         }
         //11 - Patricio A - Virzo funtab7
         else if(hostname.getText().toString().equals("CC_Tablet11")){
@@ -304,7 +309,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             MAC.setText("80:86:D9:28:DA:3E");
             Bod.setEnabled(true);
         }
-
         //endregion
 
         Modo.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
@@ -318,7 +322,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Bod.setAdapter(cc);
         //para bloquear cambio de bodega
         //Bod.setEnabled(false);
-
 
         TipoDoc.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
         ArrayAdapter dd = new ArrayAdapter(this, android.R.layout.simple_spinner_item,tipodocs);
@@ -404,7 +407,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     }
                     return handled;
                 }
-
         });
 
         nrodoc.addTextChangedListener(new TextWatcher() {
@@ -446,6 +448,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Buscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Sto_Art1.setText(null);
+                Sto_Art20.setText(null);
                 if ( CodProd.length() <= 5 ) {
                     buscarProducto();
                 }
@@ -458,6 +462,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Buscar2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Sto_Art1.setText(null);
+                Sto_Art20.setText(null);
                 if ( CodProd2.length() <= 5) {
                     buscarFleje();
                 } else {
@@ -465,7 +471,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 }
             }
         });
-
 
         asoccod.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -485,6 +490,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this,FecPop.class));
+            }
+        });
+
+        asocvenc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,VencPop.class));
             }
         });
 
@@ -514,7 +526,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 startActivity(new Intent(MainActivity.this,FotoPop.class));
             }
         });
-
         /*Ovejita.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -537,7 +548,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 return false;
             }
         });*/
-
     }
 
     private String getCurrentDateandTime(){
@@ -572,6 +582,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             CodProd2.setVisibility(View.GONE);
             Buscar.setVisibility(View.VISIBLE);
             Buscar2.setVisibility(View.GONE);
+            asocfech.setVisibility(View.VISIBLE);
+            asocvenc.setVisibility(View.GONE);
             rowPrecioDrenado.setVisibility(View.GONE);
             rowPrecioxUM.setVisibility(View.GONE);
             UbicJuanito.setVisibility(View.VISIBLE);
@@ -582,7 +594,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             StockBod20.setVisibility(View.VISIBLE);
             CodigUbic.setVisibility(View.INVISIBLE);
 
-            Des_Art.setText(null);
+            limpiarDatos();
+
+            /*Des_Art.setText(null);
             Cod_Art.setText(null);
             Cod_Barra.setText(null);
             Pre_Ven.setText(null);
@@ -602,7 +616,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             nroitem.setText(null);
             Unidad.setText(null);
             Precio_UnidadMedida.setText(null);
-            PrecioDrenado.setText(null);
+            PrecioDrenado.setText(null);*/
 
             CodProd.requestFocus();
         }
@@ -617,6 +631,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             CodProd2.setVisibility(View.GONE);
             Buscar2.setVisibility(View.GONE);
             Buscar.setVisibility(View.VISIBLE);
+            asocfech.setVisibility(View.GONE);
+            asocvenc.setVisibility(View.VISIBLE);
             rowPrecioDrenado.setVisibility(View.GONE);
             rowPrecioxUM.setVisibility(View.GONE);
             UbicJuanito.setVisibility(View.VISIBLE);
@@ -627,30 +643,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             StockBod20.setVisibility(View.VISIBLE);
             CodigUbic.setVisibility(View.INVISIBLE);
 
-            Des_Art.setText(null);
-            Cod_Art.setText(null);
-            Cod_Barra.setText(null);
-            Pre_Ven.setText(null);
-            Ubicacion.setText(null);
-            UniStock.setText(null);
-            Sto_Art1.setText(null);
-            Sto_Cri.setText(null);
-            Sto_Des.setText(null);
-            Sto_Art20.setText(null);
-            Pre_Oferta_Pesos.setText(null);
-            Cod_Ubicacion.setText(null);
-            ubiUG.setText(null);
-            ubiUC.setText(null);
-            Cap_Caja.setText(null);
-            tipodoc.setText(null);
-            nrodoc.setText(null);
-            nroitem.setText(null);
-            Unidad.setText(null);
-            Precio_UnidadMedida.setText(null);
-            PrecioDrenado.setText(null);
-
+            limpiarDatos();
             TipoDoc.requestFocus();
-            //CodProd.requestFocus();
         }
         else if(mode.equals("Despacho")){
             modox.setText("D");
@@ -660,6 +654,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             CodProd2.setVisibility(View.GONE);
             Buscar.setVisibility(View.VISIBLE);
             Buscar2.setVisibility(View.GONE);
+            asocfech.setVisibility(View.VISIBLE);
+            asocvenc.setVisibility(View.GONE);
             rowPrecioDrenado.setVisibility(View.GONE);
             rowPrecioxUM.setVisibility(View.GONE);
             UbicJuanito.setVisibility(View.VISIBLE);
@@ -670,28 +666,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             StockBod20.setVisibility(View.VISIBLE);
             CodigUbic.setVisibility(View.INVISIBLE);
 
-            Des_Art.setText(null);
-            Cod_Art.setText(null);
-            Cod_Barra.setText(null);
-            Pre_Ven.setText(null);
-            Ubicacion.setText(null);
-            UniStock.setText(null);
-            Sto_Art1.setText(null);
-            Sto_Cri.setText(null);
-            Sto_Des.setText(null);
-            Sto_Art20.setText(null);
-            Pre_Oferta_Pesos.setText(null);
-            Cod_Ubicacion.setText(null);
-            ubiUG.setText(null);
-            ubiUC.setText(null);
-            Cap_Caja.setText(null);
-            tipodoc.setText(null);
-            nrodoc.setText(null);
-            nroitem.setText(null);
-            Unidad.setText(null);
-            Precio_UnidadMedida.setText(null);
-            PrecioDrenado.setText(null);
-
+            limpiarDatos();
             CodProd.requestFocus();
         }
         else if(mode.equals("Merma")){
@@ -702,6 +677,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             CodProd2.setVisibility(View.GONE);
             Buscar.setVisibility(View.VISIBLE);
             Buscar2.setVisibility(View.GONE);
+            asocfech.setVisibility(View.VISIBLE);
+            asocvenc.setVisibility(View.GONE);
             rowPrecioDrenado.setVisibility(View.GONE);
             rowPrecioxUM.setVisibility(View.GONE);
             UbicJuanito.setVisibility(View.VISIBLE);
@@ -712,28 +689,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             StockBod20.setVisibility(View.VISIBLE);
             CodigUbic.setVisibility(View.INVISIBLE);
 
-            Des_Art.setText(null);
-            Cod_Art.setText(null);
-            Cod_Barra.setText(null);
-            Pre_Ven.setText(null);
-            Ubicacion.setText(null);
-            UniStock.setText(null);
-            Sto_Art1.setText(null);
-            Sto_Cri.setText(null);
-            Sto_Des.setText(null);
-            Sto_Art20.setText(null);
-            Pre_Oferta_Pesos.setText(null);
-            Cod_Ubicacion.setText(null);
-            ubiUG.setText(null);
-            ubiUC.setText(null);
-            Cap_Caja.setText(null);
-            tipodoc.setText(null);
-            nrodoc.setText(null);
-            nroitem.setText(null);
-            Unidad.setText(null);
-            Precio_UnidadMedida.setText(null);
-            PrecioDrenado.setText(null);
-
+            limpiarDatos();
             CodProd.requestFocus();
         }
         else if(mode.equals("Fleje")){
@@ -744,6 +700,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             CodProd2.setVisibility(View.VISIBLE);
             Buscar.setVisibility(View.GONE);
             Buscar2.setVisibility(View.VISIBLE);
+            asocfech.setVisibility(View.VISIBLE);
+            asocvenc.setVisibility(View.GONE);
             rowPrecioDrenado.setVisibility(View.VISIBLE);
             rowPrecioxUM.setVisibility(View.VISIBLE);
             UbicJuanito.setVisibility(View.GONE);
@@ -754,28 +712,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             StockBod20.setVisibility(View.GONE);
             CodigUbic.setVisibility(View.GONE);
 
-            Des_Art.setText(null);
-            Cod_Art.setText(null);
-            Cod_Barra.setText(null);
-            Pre_Ven.setText(null);
-            Ubicacion.setText(null);
-            UniStock.setText(null);
-            Sto_Art1.setText(null);
-            Sto_Cri.setText(null);
-            Sto_Des.setText(null);
-            Sto_Art20.setText(null);
-            Pre_Oferta_Pesos.setText(null);
-            Cod_Ubicacion.setText(null);
-            ubiUG.setText(null);
-            ubiUC.setText(null);
-            Cap_Caja.setText(null);
-            tipodoc.setText(null);
-            nrodoc.setText(null);
-            nroitem.setText(null);
-            Unidad.setText(null);
-            Precio_UnidadMedida.setText(null);
-            PrecioDrenado.setText(null);
-
+            limpiarDatos();
             CodProd2.requestFocus();
         }
         /*
@@ -835,7 +772,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
             Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
             conexion= DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.0.11;databaseName=Terra;user=Movil;password=Mv2021;");
-
         }catch(Exception e){
             Toast.makeText(getApplicationContext(),"SIN CONEXIÓN A BASE DE DATOS",Toast.LENGTH_SHORT).show();
         }
@@ -864,9 +800,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 ubiUC.setText(rs.getString(13));
                 Cap_Caja.setText(rs.getString(14));
                 UniStock.setText(rs.getString(15));
-
             }
             else{
+                limpiarDatos();
                 Toast.makeText(getApplicationContext(),"CÓDIGO INVÁLIDO O INEXISTENTE EN SUPERMERCADO",Toast.LENGTH_SHORT).show();
             }
             CodProd.setText("");
@@ -875,7 +811,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             asoccod.setEnabled(true);
             asocbar.setEnabled(true);
             asocfech.setEnabled(true);
-
+            asocvenc.setEnabled(true);
         }catch (Exception e){
             //Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
         }
@@ -906,9 +842,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 ubiUC.setText(rs.getString(13));
                 Cap_Caja.setText(rs.getString(14));
                 UniStock.setText(rs.getString(15));
-
             }
             else{
+                limpiarDatos();
                 Toast.makeText(getApplicationContext(),"CÓDIGO INVÁLIDO O INEXISTENTE EN SUPERMERCADO",Toast.LENGTH_SHORT).show();
             }
             CodProd.setText("");
@@ -917,6 +853,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             asoccod.setEnabled(true);
             asocbar.setEnabled(true);
             asocfech.setEnabled(true);
+            asocvenc.setEnabled(true);
 
         }catch (Exception e){
             //Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
@@ -946,6 +883,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
             }
             else{
+                limpiarDatos();
                 Toast.makeText(getApplicationContext(),"CÓDIGO INVÁLIDO O INEXISTENTE EN SUPERMERCADO",Toast.LENGTH_SHORT).show();
             }
 
@@ -955,6 +893,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             asoccod.setEnabled(true);
             asocbar.setEnabled(true);
             asocfech.setEnabled(true);
+            asocvenc.setEnabled(true);
 
         }catch (Exception e){
             //Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
@@ -980,14 +919,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 Unidad.setText(rs.getString(17));
                 Precio_UnidadMedida.setText("$"+rs.getString(10));
                 PrecioDrenado.setText(rs.getString(16));
-
             }
             else{
+                limpiarDatos();
                 Toast.makeText(getApplicationContext(),"CÓDIGO INVÁLIDO O INEXISTENTE EN SUPERMERCADO",Toast.LENGTH_SHORT).show();
             }
             CodProd2.setText("");
             CodProd2.requestFocus();
             Botones.setVisibility(View.VISIBLE);
+            asoccod.setEnabled(true);
+            asocbar.setEnabled(true);
+            asocfech.setEnabled(true);
+            asocvenc.setEnabled(true);
 
         }catch (Exception e){
             //Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
@@ -995,10 +938,31 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         CodProd2.setText("");
         CodProd2.requestFocus();
         Botones.setVisibility(View.VISIBLE);
-
     }
 
-
+    public void limpiarDatos(){
+        Des_Art.setText(null);
+        Cod_Art.setText(null);
+        Cod_Barra.setText(null);
+        Pre_Ven.setText(null);
+        Ubicacion.setText(null);
+        UniStock.setText(null);
+        Sto_Art1.setText(null);
+        Sto_Cri.setText(null);
+        Sto_Des.setText(null);
+        Sto_Art20.setText(null);
+        Pre_Oferta_Pesos.setText(null);
+        Cod_Ubicacion.setText(null);
+        ubiUG.setText(null);
+        ubiUC.setText(null);
+        Cap_Caja.setText(null);
+        tipodoc.setText(null);
+        nrodoc.setText(null);
+        nroitem.setText(null);
+        Unidad.setText(null);
+        Precio_UnidadMedida.setText(null);
+        PrecioDrenado.setText(null);
+    }
 
     public static TextView getModox() { return modox; }
 
@@ -1006,6 +970,4 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-
-
 }

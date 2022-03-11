@@ -205,6 +205,20 @@
                 android:text="FECHAS"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/butvencimiento"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:text="VENCIMIENTO"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:visibility="gone"/>
         </TableRow>
     </LinearLayout>
 

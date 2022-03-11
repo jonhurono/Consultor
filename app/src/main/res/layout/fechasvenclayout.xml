@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp">
+
+    <TableRow
+        android:id="@+id/row1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/cab_codart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="Doc:"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/fv_tipodoc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="tipodoc"
+            android:textColor="@color/black"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/guion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="-"
+            />
+
+        <TextView
+            android:id="@+id/fv_numvisa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="numvisacion"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            />
+
+        <TextView
+            android:id="@+id/cab_oferta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="Item:"
+            android:textColor="#293133"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/fv_numitem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="numitem"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/row2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/row1">
+
+        <TextView
+            android:id="@+id/cab_stock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="Saldo:"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/fv_saldo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="saldo"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/cab_preven"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="Fecha Venc:"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/fv_fechaven"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            />
+
+        <TextView
+            android:id="@+id/cab_ahorro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="Bod:"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/fv_bodega"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="bod"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+    </TableRow>
+w
+    <View
+        android:id="@+id/franja3"
+        android:layout_width="match_parent"
+        android:layout_height="2dip"
+        android:layout_below="@id/row2"
+        android:background="#DFDFDF"
+        android:visibility="visible" />
+
+</RelativeLayout>
