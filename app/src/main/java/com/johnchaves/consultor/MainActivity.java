@@ -209,6 +209,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //region
 
         Bod.setEnabled(false);
+
         //01 - FCresp - Samsung Tab A10
         if (hostname.getText().toString().equals("CC_Tablet01")) {
             MAC.setText("80:86:D9:28:E5:54");
@@ -294,6 +295,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         else if(hostname.getText().toString().equals("CC_Tablet20")){
             MAC.setText("00:27:15:46:28:76");
         }
+        //21 - xxx - Virzo funtab7
+        else if(hostname.getText().toString().equals("CC_Tablet21")){
+            MAC.setText("00:27:15:93:48:9E");
+            Bod.setSelection(6);
+        }
+        //22 - xxx - Virzo funtab7
+        else if(hostname.getText().toString().equals("CC_Tablet22")){
+            MAC.setText("00:27:15:74:24:9B");
+            Bod.setSelection(6);
+        }
         //Lenovo Avansis
         else if(hostname.getText().toString().equals("Tablet_Avansis")){
             MAC.setText("98:0C:A5:9A:FE:33");
@@ -320,6 +331,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         ArrayAdapter cc = new ArrayAdapter(this, android.R.layout.simple_spinner_item,bodegas);
         cc.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Bod.setAdapter(cc);
+        //21 - bodega - Virzo funtab7
+        if(hostname.getText().toString().equals("CC_Tablet21")){
+            Bod.setSelection(6);
+        }
+        //22 - bodega - Virzo funtab7
+        else if(hostname.getText().toString().equals("CC_Tablet22")) {
+            Bod.setSelection(6);
+        }
         //para bloquear cambio de bodega
         //Bod.setEnabled(false);
 
