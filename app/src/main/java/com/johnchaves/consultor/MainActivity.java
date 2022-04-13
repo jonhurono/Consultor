@@ -5,8 +5,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.Region;
+
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.StrictMode;
@@ -18,9 +17,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.Formatter;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -32,22 +29,15 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.net.NetworkInterface;
-import java.net.SocketException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import nl.dionsegijn.konfetti.KonfettiView;
-import nl.dionsegijn.konfetti.models.Shape;
-import nl.dionsegijn.konfetti.models.Size;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -87,69 +77,69 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Modo                = (Spinner)  findViewById(R.id.Modo);
-        Bod                 = (Spinner)  findViewById(R.id.bod);
-        TipoDoc             = (Spinner)  findViewById(R.id.TipoDoc);
-        Buscar              = (Button)   findViewById(R.id.butbuscar);
-        Buscar2             = (Button)   findViewById(R.id.butbuscar2);
-        asoccod             = (Button)   findViewById(R.id.butcods);
-        asocbar             = (Button)   findViewById(R.id.butbarras);
-        asocfech            = (Button)   findViewById(R.id.butfechas);
-        detdoc              = (Button)   findViewById(R.id.detdoc);
-        asocvenc            = (Button)   findViewById(R.id.butvencimiento);
-        CodProd             = (EditText) findViewById(R.id.inputCodProd);
-        CodProd2            = (EditText) findViewById(R.id.inputCodProd2);
-        Ovejita             = (TextView) findViewById(R.id.ovejita);
-        Des_Art             = (TextView) findViewById(R.id.Des_Art);
-        Cod_Art             = (TextView) findViewById(R.id.Cod_Art);
-        Cod_Barra           = (TextView) findViewById(R.id.Cod_Barra);
-        Pre_Ven             = (TextView) findViewById(R.id.Pre_Ven);
-        Ubicacion           = (TextView) findViewById(R.id.Ubicacion);
-        UniStock            = (TextView) findViewById(R.id.unidad);
-        Sto_Art1            = (TextView) findViewById(R.id.Sto_Art1);
-        Sto_Cri             = (TextView) findViewById(R.id.Sto_Cri);
-        Sto_Des             = (TextView) findViewById(R.id.Sto_Des);
-        Sto_Art20           = (TextView) findViewById(R.id.Sto_Art20);
-        Pre_Oferta_Pesos    = (TextView) findViewById(R.id.Pre_Oferta_Pesos);
-        Cod_Ubicacion       = (TextView) findViewById(R.id.Cod_Ubicacion);
-        MAC                 = (TextView) findViewById(R.id.MAC);
-        FETCHA              = (TextView) findViewById(R.id.FETCHA);
-        IP                  = (TextView) findViewById(R.id.IP);
-        hostname            = (TextView) findViewById(R.id.hostname);
-        ubiUG               = (TextView) findViewById(R.id.ubiUG);
-        ubiUC               = (TextView) findViewById(R.id.ubiUC);
-        Cap_Caja            = (TextView) findViewById(R.id.CapCaja);
-        modox               = (TextView) findViewById(R.id.modox);
-        bodx                = (TextView) findViewById(R.id.bodx);
-        UbicJuanito         = (TableRow) findViewById(R.id.UbicJuanito);
-        CodUbic             = (TableRow) findViewById(R.id.CodUbic);
-        StockBod1           = (TableRow) findViewById(R.id.StockBod1);
-        StockCrit           = (TableRow) findViewById(R.id.StockCrit);
-        StockDese           = (TableRow) findViewById(R.id.StockDese);
-        StockBod20          = (TableRow) findViewById(R.id.StockBod20);
-        CodigUbic           = (TableRow) findViewById(R.id.CodigUbic);
-        rowRecepcion        = (TableRow) findViewById(R.id.rowRecepcion);
-        butonera            = (TableRow) findViewById(R.id.butonera);
-        rowPrecioDrenado    = (TableRow) findViewById(R.id.rowPrecioDrenado);
-        rowPrecioxUM        = (TableRow) findViewById(R.id.rowPrecioxUM);
-        tipodoc             = (TextView) findViewById(R.id.tipodoc);
-        nrodoc              = (EditText) findViewById(R.id.nrodoc);
-        nroitem             = (EditText) findViewById(R.id.nroitem);
-        lblnrodoc           = (TextView) findViewById(R.id.lbl_nrodoc);
-        lblnroitem          = (TextView) findViewById(R.id.lbl_nroitem);
-        Unidad              = (TextView) findViewById(R.id.UnidadMedida);
-        Precio_UnidadMedida = (TextView) findViewById(R.id.Precio_UnidadMedida);
-        PrecioDrenado       = (TextView) findViewById(R.id.Precio_Drenado);
-        Botones             = (LinearLayout) findViewById(R.id.Botones);
-        Inventariar         = (FloatingActionButton) findViewById(R.id.Inventariar);
-        Foto                = (FloatingActionButton) findViewById(R.id.Foto);
+        Modo                = findViewById(R.id.Modo);
+        Bod                 = findViewById(R.id.bod);
+        TipoDoc             = findViewById(R.id.TipoDoc);
+        Buscar              = findViewById(R.id.butbuscar);
+        Buscar2             = findViewById(R.id.butbuscar2);
+        asoccod             = findViewById(R.id.butcods);
+        asocbar             = findViewById(R.id.butbarras);
+        asocfech            = findViewById(R.id.butfechas);
+        detdoc              = findViewById(R.id.detdoc);
+        asocvenc            = findViewById(R.id.butvencimiento);
+        CodProd             = findViewById(R.id.inputCodProd);
+        CodProd2            = findViewById(R.id.inputCodProd2);
+        Ovejita             = findViewById(R.id.ovejita);
+        Des_Art             = findViewById(R.id.Des_Art);
+        Cod_Art             = findViewById(R.id.Cod_Art);
+        Cod_Barra           = findViewById(R.id.Cod_Barra);
+        Pre_Ven             = findViewById(R.id.Pre_Ven);
+        Ubicacion           = findViewById(R.id.Ubicacion);
+        UniStock            = findViewById(R.id.unidad);
+        Sto_Art1            = findViewById(R.id.Sto_Art1);
+        Sto_Cri             = findViewById(R.id.Sto_Cri);
+        Sto_Des             = findViewById(R.id.Sto_Des);
+        Sto_Art20           = findViewById(R.id.Sto_Art20);
+        Pre_Oferta_Pesos    = findViewById(R.id.Pre_Oferta_Pesos);
+        Cod_Ubicacion       = findViewById(R.id.Cod_Ubicacion);
+        MAC                 = findViewById(R.id.MAC);
+        FETCHA              = findViewById(R.id.FETCHA);
+        IP                  = findViewById(R.id.IP);
+        hostname            = findViewById(R.id.hostname);
+        ubiUG               = findViewById(R.id.ubiUG);
+        ubiUC               = findViewById(R.id.ubiUC);
+        Cap_Caja            = findViewById(R.id.CapCaja);
+        modox               = findViewById(R.id.modox);
+        bodx                = findViewById(R.id.bodx);
+        UbicJuanito         = findViewById(R.id.UbicJuanito);
+        CodUbic             = findViewById(R.id.CodUbic);
+        StockBod1           = findViewById(R.id.StockBod1);
+        StockCrit           = findViewById(R.id.StockCrit);
+        StockDese           = findViewById(R.id.StockDese);
+        StockBod20          = findViewById(R.id.StockBod20);
+        CodigUbic           = findViewById(R.id.CodigUbic);
+        rowRecepcion        = findViewById(R.id.rowRecepcion);
+        butonera            = findViewById(R.id.butonera);
+        rowPrecioDrenado    = findViewById(R.id.rowPrecioDrenado);
+        rowPrecioxUM        = findViewById(R.id.rowPrecioxUM);
+        tipodoc             = findViewById(R.id.tipodoc);
+        nrodoc              = findViewById(R.id.nrodoc);
+        nroitem             = findViewById(R.id.nroitem);
+        lblnrodoc           = findViewById(R.id.lbl_nrodoc);
+        lblnroitem          = findViewById(R.id.lbl_nroitem);
+        Unidad              = findViewById(R.id.UnidadMedida);
+        Precio_UnidadMedida = findViewById(R.id.Precio_UnidadMedida);
+        PrecioDrenado       = findViewById(R.id.Precio_Drenado);
+        Botones             = findViewById(R.id.Botones);
+        Inventariar         = findViewById(R.id.Inventariar);
+        Foto                = findViewById(R.id.Foto);
         final KonfettiView konfettiView = findViewById(R.id.konfettiView);
 
         CodProd.requestFocus();
 
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (bluetoothAdapter == null) {
-            // Device doesn't support Bluetooth
+            Toast.makeText(getApplicationContext(),"Dispositivo no soporta Bluetooth",Toast.LENGTH_SHORT).show();
         }
         if (!bluetoothAdapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -163,52 +153,28 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         String ipAddress = Formatter.formatIpAddress(wifiManager.getConnectionInfo().getIpAddress());
         IP.setText(ipAddress);
 
-        /* Solo funciona en API < 29
-        WifiManager manager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        WifiInfo info = manager.getConnectionInfo();
-        String macAddress = info.getMacAddress();
-        MAC.setText(macAddress);
-        */
+        Modo.setOnItemSelectedListener(this);
+        ArrayAdapter bb = new ArrayAdapter(this, android.R.layout.simple_spinner_item,modos);
+        bb.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Modo.setAdapter(bb);
 
-        //Solo utilizar en Android OS 10 (API 29) o menor
+        Bod.setOnItemSelectedListener(this);
+        ArrayAdapter cc = new ArrayAdapter(this, android.R.layout.simple_spinner_item,bodegas);
+        cc.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Bod.setAdapter(cc);
 
-        /*
-        try {
-            List<NetworkInterface> networkInterfaceList = Collections.list(NetworkInterface.getNetworkInterfaces());
+        TipoDoc.setOnItemSelectedListener(this);
+        ArrayAdapter dd = new ArrayAdapter(this, android.R.layout.simple_spinner_item,tipodocs);
+        dd.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        TipoDoc.setAdapter(dd);
 
-            String stringMac = "";
-
-            for (NetworkInterface networkInterface : networkInterfaceList) {
-                if (networkInterface.getName().equalsIgnoreCase("wlan0")) {
-                    for (int i = 0; i < networkInterface.getHardwareAddress().length; i++) {
-                        String stringMacByte = Integer.toHexString(networkInterface.getHardwareAddress()[i] & 0xFF);
-
-                        if (stringMacByte.length() == 1) {
-                            stringMacByte = "0" + stringMacByte;
-                        }
-                        stringMac = stringMac + stringMacByte.toUpperCase() + ":";
-                    }
-                    break;
-                }
-                else {
-
-                }
-            }
-            MAC.setText(stringMac.substring(0, stringMac.length() - 1));
-
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
-        */
-
-        //aquí se acaba el try catch de MAC
-
-        //Si la API es versión 30 (Android OS 11) o mayor, entonces enviar la MAC en duro
+        //para bloquear cambio de bodega
+        Bod.setEnabled(false);
 
         //Relación hostname/MAC
         //region
 
-        Bod.setEnabled(false);
+
 
         //01 - FCresp - Samsung Tab A10
         if (hostname.getText().toString().equals("CC_Tablet01")) {
@@ -321,31 +287,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             Bod.setEnabled(true);
         }
         //endregion
-
-        Modo.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
-        ArrayAdapter bb = new ArrayAdapter(this, android.R.layout.simple_spinner_item,modos);
-        bb.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        Modo.setAdapter(bb);
-
-        Bod.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
-        ArrayAdapter cc = new ArrayAdapter(this, android.R.layout.simple_spinner_item,bodegas);
-        cc.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        Bod.setAdapter(cc);
-        //21 - bodega - Virzo funtab7
-        if(hostname.getText().toString().equals("CC_Tablet21")){
-            Bod.setSelection(6);
-        }
-        //22 - bodega - Virzo funtab7
-        else if(hostname.getText().toString().equals("CC_Tablet22")) {
-            Bod.setSelection(6);
-        }
-        //para bloquear cambio de bodega
-        //Bod.setEnabled(false);
-
-        TipoDoc.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
-        ArrayAdapter dd = new ArrayAdapter(this, android.R.layout.simple_spinner_item,tipodocs);
-        dd.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        TipoDoc.setAdapter(dd);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, 101);
@@ -614,28 +555,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             CodigUbic.setVisibility(View.INVISIBLE);
 
             limpiarDatos();
-
-            /*Des_Art.setText(null);
-            Cod_Art.setText(null);
-            Cod_Barra.setText(null);
-            Pre_Ven.setText(null);
-            Ubicacion.setText(null);
-            UniStock.setText(null);
-            Sto_Art1.setText(null);
-            Sto_Cri.setText(null);
-            Sto_Des.setText(null);
-            Sto_Art20.setText(null);
-            Pre_Oferta_Pesos.setText(null);
-            Cod_Ubicacion.setText(null);
-            ubiUG.setText(null);
-            ubiUC.setText(null);
-            Cap_Caja.setText(null);
-            tipodoc.setText(null);
-            nrodoc.setText(null);
-            nroitem.setText(null);
-            Unidad.setText(null);
-            Precio_UnidadMedida.setText(null);
-            PrecioDrenado.setText(null);*/
 
             CodProd.requestFocus();
         }
