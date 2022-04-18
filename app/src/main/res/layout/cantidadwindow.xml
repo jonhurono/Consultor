@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
     <TableLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TableRow
@@ -91,7 +91,7 @@
         </TableRow>
 
         <TableRow
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
             <TextView
@@ -106,10 +106,10 @@
 
             <EditText
                 android:id="@+id/Cod_Gondola"
-                android:layout_width="66dp"
+                android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_marginTop="0dp"
-                android:ems="10"
+
                 android:gravity="center|center_horizontal|center_vertical"
                 android:inputType="textCapCharacters" />
 
@@ -139,7 +139,7 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:hint="Formato: ''30-01-2021'' "
-                android:ems="10"
+
                 android:focusable="true"
                 android:inputType="date"
                 android:maxLines="1" />
@@ -163,7 +163,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:ems="10"
+
                 android:focusable="true"
                 android:inputType="date"
                 android:maxLines="1" />
@@ -187,7 +187,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:ems="10"
+
                 android:focusable="true"
                 android:inputType="date"
                 android:maxLines="1" />

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.DisplayMetrics;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,30 +31,31 @@ public class DocPop extends Activity {
         int height = dm.heightPixels;
         getWindow().setLayout((int)(width*.6),(int)(height*.25));
 
-        back    = (Button) findViewById(R.id.btnSalirDoc);
-        coddoc  = (TextView) findViewById(R.id.coddoc);
-        codartt = (TextView) findViewById(R.id.codartt);
-        cantt   = (TextView) findViewById(R.id.cantt);
+        back    = findViewById(R.id.btnSalirDoc);
+        coddoc  = findViewById(R.id.coddoc);
+        codartt = findViewById(R.id.codartt);
+        cantt   = findViewById(R.id.cantt);
 
         buscarDocs();
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        back.setOnClickListener(v -> finish());
     }
 
 
     public Connection conexionDB(){
-        Connection conexion=null;
+
+        Connection conexion = null;
+
         try{
             StrictMode.ThreadPolicy policy=new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
-            Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
-            conexion= DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.0.11;databaseName=Terra;user=Movil;password=Mv2021;");
+            String driver = Util.getProperty("db.driver",getApplicationContext());
+            String url = Util.getProperty("db.url",getApplicationContext());
+
+            Class.forName(""+driver+"").newInstance();
+
+            conexion = DriverManager.getConnection(""+url+"");
 
         }catch(Exception e){
             Toast.makeText(getApplicationContext(),"SIN CONEXIÓN A BASE DE DATOS",Toast.LENGTH_SHORT).show();

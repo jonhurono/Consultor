@@ -1,24 +1,12 @@
 package com.johnchaves.consultor;
 
-
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.Image;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.squareup.picasso.Picasso;
-
-import java.io.InputStream;
 
 public class FotoPop extends Activity {
 
@@ -38,22 +26,16 @@ public class FotoPop extends Activity {
         getWindow().setLayout((int)(width*.75),(int)(height*.65));
 
 
-        imgArt = (ImageView) findViewById(R.id.imgArt);
-        back    = (Button) findViewById(R.id.btnSalirImg);
+        imgArt = findViewById(R.id.imgArt);
+        back   = findViewById(R.id.btnSalirImg);
         Picasso.get().load("http://192.168.0.18/fotoarticulo/"+Cod_Art.getText()+".png")
                 //.resize(500, 500)
                 .fit()
                 .into(imgArt);
 
-
         //new SearchImage(findViewById(R.id.imgArt)).execute("http://192.168.0.18/fotoarticulo/"+Cod_Art.getText()+".png");
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        back.setOnClickListener(v -> finish());
 
     }
 
@@ -82,5 +64,4 @@ public class FotoPop extends Activity {
             imgArt.setImageBitmap(result);
         }
     }*/
-
 }

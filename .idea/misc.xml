@@ -4,7 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Avansis/AndroidStudioProjects/Consultor/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1425" />
-        <entry key="..\:/Users/Avansis/AndroidStudioProjects/Consultor/app/src/main/res/layout/cantidadwindow.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Avansis/AndroidStudioProjects/Consultor/app/src/main/res/drawable/pop_bg.xml" value="0.2115" />
+        <entry key="..\:/Users/Avansis/AndroidStudioProjects/Consultor/app/src/main/res/layout/cantidadwindow.xml" value="0.25" />
         <entry key="..\:/Users/jjcha/AndroidStudioProjects/Consultor/app/src/main/res/drawable/pop_bg.xml" value="0.25875" />
         <entry key="..\:/Users/jjcha/AndroidStudioProjects/Consultor/app/src/main/res/layout/activity_main.xml" value="0.536" />
         <entry key="..\:/Users/jjcha/AndroidStudioProjects/Consultor/app/src/main/res/layout/barlayout.xml" value="0.4" />

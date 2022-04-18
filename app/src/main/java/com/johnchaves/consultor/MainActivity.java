@@ -313,22 +313,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
-        CodProd.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                boolean handled = false;
-                if (actionId == CodProd.getImeActionId()){
+        CodProd.setOnEditorActionListener((v, actionId, event) -> {
+            boolean handled = false;
+            if (actionId == CodProd.getImeActionId()){
 
-                    if (CodProd.length() <= 5){
-                        buscarProducto();
-                    }
-                    else {
-                        buscarBarra();
-                    }
-                    handled = true;
+                if (CodProd.length() <= 5){
+                    buscarProducto();
                 }
-                return handled;
+                else {
+                    buscarBarra();
+                }
+                handled = true;
             }
+            return handled;
         });
 
         CodProd2.addTextChangedListener(new TextWatcher() {
@@ -352,22 +349,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
-        CodProd2.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                boolean handled = false;
+        CodProd2.setOnEditorActionListener((v, actionId, event) -> {
+            boolean handled = false;
 
-                if (actionId == CodProd2.getImeActionId()) {
-                    if (CodProd2.length() <= 5) {
-                        buscarFleje();
-                    } else {
-                        buscarxBarraFleje();
-                    }
-                    handled = true;
-                    }
-                    return handled;
+            if (actionId == CodProd2.getImeActionId()) {
+                if (CodProd2.length() <= 5) {
+                    buscarFleje();
+                } else {
+                    buscarxBarraFleje();
                 }
-        });
+                handled = true;
+                }
+                return handled;
+            });
 
         nrodoc.addTextChangedListener(new TextWatcher() {
             @Override
@@ -390,102 +384,60 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
-        nrodoc.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                boolean handled = false;
+        nrodoc.setOnEditorActionListener((v, actionId, event) -> {
+            boolean handled = false;
 
-                if (actionId == nrodoc.getImeActionId()){
+            if (actionId == nrodoc.getImeActionId()){
 
-                    nroitem.requestFocus();
+                nroitem.requestFocus();
 
-                    handled = true;
-                }
-                return handled;
+                handled = true;
+            }
+            return handled;
+        });
+
+        Buscar.setOnClickListener(v -> {
+            Sto_Art1.setText(null);
+            Sto_Art20.setText(null);
+            if ( CodProd.length() <= 5 ) {
+                buscarProducto();
+            }
+            else {
+                buscarBarra();
             }
         });
 
-        Buscar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Sto_Art1.setText(null);
-                Sto_Art20.setText(null);
-                if ( CodProd.length() <= 5 ) {
-                    buscarProducto();
-                }
-                else {
-                    buscarBarra();
-                }
+        Buscar2.setOnClickListener(v -> {
+            Sto_Art1.setText(null);
+            Sto_Art20.setText(null);
+            if ( CodProd2.length() <= 5) {
+                buscarFleje();
+            } else {
+                buscarxBarraFleje();
             }
         });
 
-        Buscar2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Sto_Art1.setText(null);
-                Sto_Art20.setText(null);
-                if ( CodProd2.length() <= 5) {
-                    buscarFleje();
-                } else {
-                    buscarxBarraFleje();
-                }
-            }
-        });
+        asoccod.setOnClickListener(v -> startActivity(new Intent(MainActivity.this,CodPop.class)));
 
-        asoccod.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,CodPop.class));
-            }
-        });
+        asocbar.setOnClickListener(v -> startActivity(new Intent(MainActivity.this,BarPop.class)));
 
-        asocbar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,BarPop.class));
-            }
-        });
+        asocfech.setOnClickListener(v -> startActivity(new Intent(MainActivity.this,FecPop.class)));
 
-        asocfech.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,FecPop.class));
-            }
-        });
+        asocvenc.setOnClickListener(v -> startActivity(new Intent(MainActivity.this,VencPop.class)));
 
-        asocvenc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,VencPop.class));
-            }
-        });
+        detdoc.setOnClickListener(v -> startActivity(new Intent(MainActivity.this,DocPop.class)));
 
-        detdoc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,DocPop.class));
+        Inventariar.setOnClickListener(v -> {
+            if (Modo.getSelectedItem().equals("Fleje")) {
+                Toast.makeText(getApplicationContext(), "INSERCIÓN DE DATOS DESHABILITADA PARA MODO FLEJE", Toast.LENGTH_SHORT).show();
+            } else {
+                startActivity(new Intent(MainActivity.this, CantidadPop.class));
+                FETCHA.setText(getCurrentDateandTime());
+                lblnrodoc.setText(nrodoc.getText().toString());
+                lblnroitem.setText(nroitem.getText().toString());
             }
         });
-
-        Inventariar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Modo.getSelectedItem().equals("Fleje")) {
-                    Toast.makeText(getApplicationContext(), "INSERCIÓN DE DATOS DESHABILITADA PARA MODO FLEJE", Toast.LENGTH_SHORT).show();
-                } else {
-                    startActivity(new Intent(MainActivity.this, CantidadPop.class));
-                    FETCHA.setText(getCurrentDateandTime());
-                    lblnrodoc.setText(nrodoc.getText().toString());
-                    lblnroitem.setText(nroitem.getText().toString());
-                }
-            }
-        });
-        Foto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,FotoPop.class));
-            }
-        });
+        Foto.setOnClickListener(v -> startActivity(new Intent(MainActivity.this,FotoPop.class)));
         /*Ovejita.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -703,13 +655,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public Connection conexionDB(){
-        Connection conexion=null;
+
+        Connection conexion = null;
+
         try{
             StrictMode.ThreadPolicy policy=new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
-            Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
-            conexion= DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.0.11;databaseName=Terra;user=Movil;password=Mv2021;");
+            String driver = Util.getProperty("db.driver",getApplicationContext());
+            String url = Util.getProperty("db.url",getApplicationContext());
+
+            Class.forName(""+driver+"").newInstance();
+
+            conexion = DriverManager.getConnection(""+url+"");
+
         }catch(Exception e){
             Toast.makeText(getApplicationContext(),"SIN CONEXIÓN A BASE DE DATOS",Toast.LENGTH_SHORT).show();
         }
@@ -782,8 +741,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 UniStock.setText(rs.getString(15));
             }
             else{
-                limpiarDatos();
-                Toast.makeText(getApplicationContext(),"CÓDIGO INVÁLIDO O INEXISTENTE EN SUPERMERCADO",Toast.LENGTH_SHORT).show();
+                buscarBarraAsociada();
             }
             CodProd.setText("");
             CodProd.requestFocus();
@@ -800,6 +758,49 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         CodProd.requestFocus();
         Botones.setVisibility(View.VISIBLE);
 
+    }
+
+    private void buscarBarraAsociada() {
+        try{
+            Statement stm = conexionDB().createStatement();
+            ResultSet rs = stm.executeQuery("EXEC Sp_C_ConsultorApp @Modo = 'H'," +
+                    "@CodBod = '"+bodx.getText().toString()+"', @CodBar = '"+CodProd.getText().toString()+"' ");
+
+            if(rs.next()){
+                Des_Art.setText(rs.getString(1));
+                Cod_Art.setText(rs.getString(2));
+                Cod_Barra.setText(rs.getString(3));
+                Pre_Ven.setText("$"+rs.getString(4));
+                Pre_Oferta_Pesos.setText("$"+rs.getString(5));
+                Sto_Art1.setText(rs.getString(6));
+                Sto_Cri.setText(rs.getString(7));
+                Ubicacion.setText(rs.getString(8));
+                Sto_Art20.setText(rs.getString(9));
+                Sto_Des.setText(rs.getString(10));
+                Cod_Ubicacion.setText(rs.getString(11));
+                ubiUG.setText(rs.getString(12));
+                ubiUC.setText(rs.getString(13));
+                Cap_Caja.setText(rs.getString(14));
+                UniStock.setText(rs.getString(15));
+            }
+            else{
+                limpiarDatos();
+                Toast.makeText(getApplicationContext(),"hola",Toast.LENGTH_SHORT).show();
+            }
+            CodProd.setText("");
+            CodProd.requestFocus();
+            Botones.setVisibility(View.VISIBLE);
+            asoccod.setEnabled(true);
+            asocbar.setEnabled(true);
+            asocfech.setEnabled(true);
+            asocvenc.setEnabled(true);
+
+        }catch (Exception e){
+            //Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
+        CodProd.setText("");
+        CodProd.requestFocus();
+        Botones.setVisibility(View.VISIBLE);
     }
 
     public void buscarFleje(){

@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<pop_bg xmlns:android="http://schemas.android.com/apk/res/android">
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
 
-</pop_bg>
+    <gradient
+        android:startColor="#FFFFFF"
+        android:endColor="@color/gray"
+        android:angle="90"
+        />
+    <corners
+        android:radius="10dp"
+        />
+</shape>

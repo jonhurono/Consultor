@@ -10,7 +10,7 @@ public class VencimientoItem {
         this.fv_tipodoc = fv_tipodoc;
         this.fv_numvisa = fv_numvisa;
         this.fv_numitem = fv_numitem;
-        this.fv_saldo = fv_saldo;
+        this.fv_saldo   = fv_saldo;
         this.fv_fechaven = fv_fechaven;
         this.fv_bodega   = fv_bodega;
     }
@@ -36,5 +36,6 @@ public class VencimientoItem {
     }
 
     public String getFv_bodega()   {
-        return fv_bodega; }
+        return fv_bodega;
+    }
 }

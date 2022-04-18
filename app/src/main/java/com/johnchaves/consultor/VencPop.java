@@ -4,14 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,30 +24,26 @@ import java.util.List;
 public class VencPop extends Activity {
 
     TextView fv_codart;
-    SwipeRefreshLayout swipeRefreshLayout;
     Button volver;
     private ArrayList<VencimientoItem> vencimientoItemArrayList;
     private MyVencimientoAdapter myVencimientoAdapter;
-    private RecyclerView recyclerView; //RecyclerView
+    private RecyclerView recyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
-    private boolean success = false;
     TextView Cod_Art = MainActivity.getCod_Art();
-
 
     @Override
     protected void onCreate (Bundle savedInstance){
         super.onCreate(savedInstance);
         setContentView(R.layout.vencimientoslayout);
 
-        fv_codart = (TextView)findViewById(R.id.fv_codart);
-        volver = (Button)findViewById(R.id.btnok);
-        recyclerView        = (RecyclerView) findViewById(R.id.recycler);
-        //swipeRefreshLayout  = (SwipeRefreshLayout) findViewById(R.id.swype);
+        fv_codart       = findViewById(R.id.fv_codart);
+        volver          = findViewById(R.id.btnok);
+        recyclerView    = findViewById(R.id.recycler);
 
         recyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
-        vencimientoItemArrayList = new ArrayList<VencimientoItem>();
+        vencimientoItemArrayList = new ArrayList<>();
         fv_codart.setText("código: "+Cod_Art.getText());
 
         DisplayMetrics dm= new DisplayMetrics();
@@ -60,21 +54,22 @@ public class VencPop extends Activity {
 
         GetVencimiento();
 
-        volver.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        volver.setOnClickListener(v -> finish());
     }
     public Connection conexionDB(){
-        Connection conexion=null;
+
+        Connection conexion = null;
+
         try{
             StrictMode.ThreadPolicy policy=new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
-            Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
-            conexion= DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.0.11;databaseName=Terra;user=Movil;password=Mv2021;");
+            String driver = Util.getProperty("db.driver",getApplicationContext());
+            String url = Util.getProperty("db.url",getApplicationContext());
+
+            Class.forName(""+driver+"").newInstance();
+
+            conexion = DriverManager.getConnection(""+url+"");
 
         }catch(Exception e){
             Toast.makeText(getApplicationContext(),"SIN CONEXIÓN A BASE DE DATOS",Toast.LENGTH_SHORT).show();
@@ -98,15 +93,12 @@ public class VencPop extends Activity {
                                 rs.getString(5),
                                 rs.getString(7),
                                 rs.getString(8)));
-                        //Toast.makeText(getApplicationContext(), "SE ENCONTRARON PRODUCTOS EN OFERTA", Toast.LENGTH_SHORT).show();
                     } catch (Exception ex) {
-                        Toast.makeText(getApplicationContext(), "sin registros", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "SIN REGISTROS", Toast.LENGTH_SHORT).show();
                         ex.printStackTrace();
                     }
                 }
-                success = true;
             } else {
-                success = false;
                 Toast.makeText(getApplicationContext(), "NO SE ENCONTRARON RESULTADOS", Toast.LENGTH_SHORT).show();
             }
             myVencimientoAdapter = new MyVencimientoAdapter(vencimientoItemArrayList, VencPop.this);
@@ -127,12 +119,12 @@ public class VencPop extends Activity {
             public ViewHolder(View v) {
                 super(v);
                 layout = v;
-                fv_tipodoc = (TextView) v.findViewById(R.id.fv_tipodoc);
-                fv_numvisa = (TextView) v.findViewById(R.id.fv_numvisa);
-                fv_numitem = (TextView) v.findViewById(R.id.fv_numitem);
-                fv_saldo    = (TextView) v.findViewById(R.id.fv_saldo);
-                fv_fechaven = (TextView) v.findViewById(R.id.fv_fechaven);
-                fv_bodega   = (TextView) v.findViewById(R.id.fv_bodega);
+                fv_tipodoc = v.findViewById(R.id.fv_tipodoc);
+                fv_numvisa = v.findViewById(R.id.fv_numvisa);
+                fv_numitem = v.findViewById(R.id.fv_numitem);
+                fv_saldo    = v.findViewById(R.id.fv_saldo);
+                fv_fechaven = v.findViewById(R.id.fv_fechaven);
+                fv_bodega   = v.findViewById(R.id.fv_bodega);
             }
         }
 

@@ -1,4 +1,5 @@
 *.iml
+*.properties
 .gradle
 /local.properties
 /.idea/caches
@@ -9,7 +10,9 @@
 /.idea/assetWizardSettings.xml
 .DS_Store
 /build
+/src/main/assets/dbconfig.properties
 /captures
 .externalNativeBuild
 .cxx
 local.properties
+.dbconfig.properties

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.DisplayMetrics;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,31 +30,32 @@ public class FecPop extends Activity {
         int height = dm.heightPixels;
         getWindow().setLayout((int)(width*.7),(int)(height*.35));
 
-        back    = (Button) findViewById(R.id.btnSalirFec);
-        qui_sto = (TextView) findViewById(R.id.qui_sto);
-        cri_sto = (TextView) findViewById(R.id.cri_sto);
-        ult_com = (TextView) findViewById(R.id.ult_com);
-        ult_ven = (TextView) findViewById(R.id.ult_ven);
-        fec_ven = (TextView) findViewById(R.id.fec_ven);
+        back    = findViewById(R.id.btnSalirFec);
+        qui_sto = findViewById(R.id.qui_sto);
+        cri_sto = findViewById(R.id.cri_sto);
+        ult_com = findViewById(R.id.ult_com);
+        ult_ven = findViewById(R.id.ult_ven);
+        fec_ven = findViewById(R.id.fec_ven);
 
         buscarFechas();
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        back.setOnClickListener(v -> finish());
     }
 
     public Connection conexionDB(){
-        Connection conexion=null;
+
+        Connection conexion = null;
+
         try{
             StrictMode.ThreadPolicy policy=new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
-            Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
-            conexion= DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.0.11;databaseName=Terra;user=Movil;password=Mv2021;");
+            String driver = Util.getProperty("db.driver",getApplicationContext());
+            String url = Util.getProperty("db.url",getApplicationContext());
+
+            Class.forName(""+driver+"").newInstance();
+
+            conexion = DriverManager.getConnection(""+url+"");
 
         }catch(Exception e){
             Toast.makeText(getApplicationContext(),"SIN CONEXIÓN A BASE DE DATOS",Toast.LENGTH_SHORT).show();
