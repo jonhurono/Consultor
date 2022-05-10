@@ -10,17 +10,18 @@ android {
         applicationId 'com.johnchaves.consultor'
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 23
+        versionCode 27
         versionName '4.4'
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.debug
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            versionNameSuffix '.0'
+            versionNameSuffix '.4'
         }
         customDebugType {
             debuggable true
@@ -36,7 +37,7 @@ dependencies {
 
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.android.support.constraint:constraint-layout:2.0.4'
-    implementation files('libs\\jtds-1.3.1.jar')
+    implementation files('libs/jtds-1.3.1.jar')
     testImplementation 'junit:junit:4.+'
     
     implementation 'com.android.support:appcompat-v7:28.0.0'
@@ -47,6 +48,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
+    implementation 'com.google.android.play:core:1.10.3'
     implementation 'nl.dionsegijn:konfetti:1.3.2'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.10'
 

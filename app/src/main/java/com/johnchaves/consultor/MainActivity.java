@@ -174,8 +174,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //Relación hostname/MAC
         //region
 
-
-
         //01 - FCresp - Samsung Tab A10
         if (hostname.getText().toString().equals("CC_Tablet01")) {
             MAC.setText("80:86:D9:28:E5:54");
@@ -219,7 +217,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //10 - xxx - Samsung Tab A8
         else if(hostname.getText().toString().equals("CC_Tablet10")){
             MAC.setText("54:21:9D:CA:AA:7E");
-            Bod.setEnabled(true);
         }
         //11 - Patricio A - Virzo funtab7
         else if(hostname.getText().toString().equals("CC_Tablet11")){
@@ -296,11 +293,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                if(s.toString().trim().length()==0){
-                    Buscar.setEnabled(false);
-                } else {
-                    Buscar.setEnabled(true);
-                }
+                Buscar.setEnabled(s.toString().trim().length() != 0);
             }
 
             @Override
@@ -437,7 +430,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 lblnroitem.setText(nroitem.getText().toString());
             }
         });
+
         Foto.setOnClickListener(v -> startActivity(new Intent(MainActivity.this,FotoPop.class)));
+
         /*Ovejita.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -460,6 +455,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 return false;
             }
         });*/
+
     }
 
     private String getCurrentDateandTime(){
@@ -484,7 +480,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String mode = parent.getSelectedItem().toString();
-
 
         if(mode.equals("Cuenta/Inventario")){
             modox.setText("C");
@@ -605,50 +600,40 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             limpiarDatos();
             CodProd2.requestFocus();
         }
-        /*
-        else if(mode.equals("John")){
-            modox.setText("J");
-            rowRepecion.setVisibility(View.GONE);
-            TipoDoc.setSelection(0);
-            tipodoc.setText(null);
-            nrodoc.setText(null);
-            nroitem.setText(null);
-        }
-        */
-        else if (mode.equals("Bod 1 - Supermercado")){
+        else if(mode.equals("Bod 1 - Supermercado")){
             bodx.setText("1");
         }
-        else if (mode.equals("Bod 2 - Sala de Proceso")){
+        else if(mode.equals("Bod 2 - Sala de Proceso")){
             bodx.setText("2");
         }
-        else if (mode.equals("Bod 4 - Intermedia")){
+        else if(mode.equals("Bod 4 - Intermedia")){
             bodx.setText("4");
         }
-        else if (mode.equals("Bod 5 - Verduras")){
+        else if(mode.equals("Bod 5 - Verduras")){
             bodx.setText("5");
         }
-        else if (mode.equals("Bod 6 - Cecinas")){
+        else if(mode.equals("Bod 6 - Cecinas")){
             bodx.setText("6");
         }
-        else if (mode.equals("Bod 10 - De Transito")){
+        else if(mode.equals("Bod 10 - De Transito")){
             bodx.setText("10");
         }
-        else if (mode.equals("Bod 20 - Particular")){
+        else if(mode.equals("Bod 20 - Particular")){
             bodx.setText("20");
         }
-        else if (mode.equals("ZETA")) {
+        else if(mode.equals("ZETA")) {
             tipodoc.setText("Z");
             nrodoc.requestFocus();
         }
-        else if (mode.equals("REEXPEDICIÓN")) {
+        else if(mode.equals("REEXPEDICIÓN")) {
             tipodoc.setText("R");
             nrodoc.requestFocus();
         }
-        else if (mode.equals("T.U")) {
+        else if(mode.equals("T.U")) {
             tipodoc.setText("T");
             nrodoc.requestFocus();
         }
-        else if (mode.equals("DESPACHO")) {
+        else if(mode.equals("DESPACHO")) {
             tipodoc.setText("B");
             nrodoc.requestFocus();
         }
